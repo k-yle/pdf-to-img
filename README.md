@@ -1,2 +1,57 @@
 # pdf-to-img
-Converts PDFs to images in nodejs with no dependency on imagemagick
+
+[![Build Status](https://github.com/k-yle/pdf-to-img/workflows/Build%20and%20Test/badge.svg)](https://github.com/k-yle/pdf-to-img/actions)
+[![Coverage Status](https://coveralls.io/repos/github/k-yle/pdf-to-img/badge.svg?branch=master)](https://coveralls.io/github/k-yle/pdf-to-img?branch=master)
+[![npm version](https://badge.fury.io/js/pdf-to-img.svg)](https://badge.fury.io/js/pdf-to-img)
+[![npm](https://img.shields.io/npm/dt/pdf-to-img.svg)](https://www.npmjs.com/package/pdf-to-img)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/pdf-to-img)
+
+📃📸 Converts PDFs to images in nodejs with no native dependencies.
+
+Useful for unit tests of PDFs
+
+Supports nodejs v10, v12, and v14. `v15` is not supported yet.
+
+## Install
+
+```sh
+npm install -S pdf-to-img
+```
+
+## Example
+
+Using jest and [jest-image-snapshot](https://npm.im/jest-image-snapshot).
+
+```js
+const { pdf } = require("pdf-to-img");
+
+it("generates a PDF", async () => {
+  for await (const page of await pdf("example.pdf")) {
+    expect(page).toMatchImageSnapshot();
+  }
+});
+
+// or if you want access to more details:
+
+it("generates a PDF with 2 pages", async () => {
+  const doc = await pdf("example.pdf");
+
+  expect(doc.length).toBe(2);
+  expect(doc.metadata).toEqual({ ... });
+
+  for await (const page of doc) {
+    expect(page).toMatchImageSnapshot();
+  }
+});
+
+```
+
+### Options
+
+You can supply a second argument which is an object of options:
+
+```js
+const doc = await pdf("example.pdf", {
+  password: "...", // if the PDF is encrypted
+});
+```
