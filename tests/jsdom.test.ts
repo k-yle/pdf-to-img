@@ -1,18 +1,13 @@
-import { toMatchImageSnapshot } from "jest-image-snapshot";
+/**
+ * @jest-environment jsdom
+ */
 import { promises as fs } from "fs";
 import { pdf } from "../src";
-
-expect.extend({ toMatchImageSnapshot });
-
-const opts = <const>{
-  failureThresholdType: "percent",
-  failureThreshold: 0.1,
-};
 
 describe("example.pdf", () => {
   it("correctly generates a single png for the one page", async () => {
     for await (const page of await pdf("./tests/example.pdf")) {
-      expect(page).toMatchImageSnapshot(opts);
+      expect(page).toMatchImageSnapshot();
     }
   });
 });
@@ -35,7 +30,7 @@ describe("multipage.pdf", () => {
       Title: "",
     });
     for await (const page of doc) {
-      expect(page).toMatchImageSnapshot(opts);
+      expect(page).toMatchImageSnapshot();
     }
   });
 });
@@ -57,7 +52,7 @@ describe("test-pattern.pdf", () => {
       Title: "Pattern Test - PAL Static.png",
     });
     for await (const page of doc) {
-      expect(page).toMatchImageSnapshot(opts);
+      expect(page).toMatchImageSnapshot();
     }
   });
 });
@@ -81,7 +76,7 @@ describe("encrypted.pdf", () => {
       Producer: "Microsoft® Word for Microsoft 365\x00",
     });
     for await (const page of doc) {
-      expect(page).toMatchImageSnapshot(opts);
+      expect(page).toMatchImageSnapshot();
     }
   });
 
@@ -104,7 +99,7 @@ describe("data url", () => {
     const dataUrl = `data:application/pdf;base64,${b64}`;
 
     for await (const page of await pdf(dataUrl)) {
-      expect(page).toMatchImageSnapshot(opts);
+      expect(page).toMatchImageSnapshot();
     }
   });
 });

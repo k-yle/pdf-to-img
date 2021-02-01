@@ -1,6 +1,6 @@
 {
   "name": "pdf-to-img",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Kyle Hensel",
   "description": "📃📸 Converts PDFs to images in nodejs with no native dependencies",
   "main": "dist",
@@ -16,6 +16,7 @@
     "pdf-to-png",
     "jest"
   ],
+  "repository": "https://github.com/k-yle/pdf-to-img",
   "scripts": {
     "build": "tsc && rm -rf dist && mv temp/src dist && rm -rf temp",
     "lint": "eslint --format pretty --ext .ts --ignore-path .gitignore .",
@@ -43,6 +44,9 @@
     "transform": {
       "^.+\\.(t|j)sx?$": "ts-jest"
     },
+    "setupFilesAfterEnv": [
+      "./tests/setupTests.ts"
+    ],
     "collectCoverage": true
   }
 }
