@@ -46,6 +46,8 @@ it("generates a PDF with 2 pages", async () => {
 
 ```
 
+The `pdf` function accepts either a path to the file on disk, or a data URL (e.g. `data:application/pdf;base64,...`)
+
 ### Options
 
 You can supply a second argument which is an object of options:

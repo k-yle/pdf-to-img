@@ -20,10 +20,12 @@ export type Options = {
   password?: string;
 };
 
+const PREFIX = "data:application/pdf;base64,";
+
 /**
  * Converts a PDF to a series of images. This returns a `Symbol.asyncIterator`
  *
- * @param path the path to a pdf file, or a data url.
+ * @param pathOrDataUrl the path to a pdf file, or a data url.
  *
  * @example
  * ```js
@@ -45,14 +47,16 @@ export type Options = {
  * ```
  */
 export async function pdf(
-  path: string,
+  pathOrDataUrl: string,
   options: Options = {}
 ): Promise<{
   length: number;
   metadata: PdfMetadata;
   [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
 }> {
-  const data = new Uint8Array(await fs.readFile(path));
+  const data = pathOrDataUrl.startsWith(PREFIX)
+    ? Buffer.from(pathOrDataUrl.slice(PREFIX.length), "base64")
+    : new Uint8Array(await fs.readFile(pathOrDataUrl));
 
   const pdfDocument = await pdfjs.getDocument({
     data,

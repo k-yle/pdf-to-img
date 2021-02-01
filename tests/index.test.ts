@@ -1,4 +1,5 @@
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import { promises as fs } from "fs";
 import { pdf } from "../src";
 
 expect.extend({ toMatchImageSnapshot });
@@ -11,6 +12,29 @@ const opts = <const>{
 describe("example.pdf", () => {
   it("correctly generates a single png for the one page", async () => {
     for await (const page of await pdf("./tests/example.pdf")) {
+      expect(page).toMatchImageSnapshot(opts);
+    }
+  });
+});
+
+describe("multipage.pdf", () => {
+  it("works for multipage PDFs", async () => {
+    const doc = await pdf("./tests/multipage.pdf");
+    expect(doc).toHaveLength(2);
+    expect(doc.metadata).toStrictEqual({
+      Author: "Kyle Hensel",
+      CreationDate: "D:20210202090134+12'00'",
+      Creator: "Microsoft® PowerPoint® for Microsoft 365",
+      IsAcroFormPresent: false,
+      IsCollectionPresent: false,
+      IsLinearized: false,
+      IsXFAPresent: false,
+      ModDate: "D:20210202090134+12'00'",
+      PDFFormatVersion: "1.7",
+      Producer: "Microsoft® PowerPoint® for Microsoft 365",
+      Title: "",
+    });
+    for await (const page of doc) {
       expect(page).toMatchImageSnapshot(opts);
     }
   });
@@ -75,5 +99,12 @@ describe("encrypted.pdf", () => {
 });
 
 describe("data url", () => {
-  it.todo("can load doc from a data URL");
+  it("can load a document from a data URL", async () => {
+    const b64 = await fs.readFile("./tests/example.pdf", "base64");
+    const dataUrl = `data:application/pdf;base64,${b64}`;
+
+    for await (const page of await pdf(dataUrl)) {
+      expect(page).toMatchImageSnapshot(opts);
+    }
+  });
 });
