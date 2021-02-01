@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "target": "es2015",
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "declaration": true,
+    "outDir": "temp"
+  },
+  "include": ["src", "tests"]
+}
