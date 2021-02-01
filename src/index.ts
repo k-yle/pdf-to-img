@@ -1,4 +1,7 @@
 import { promises as fs } from "fs";
+
+import "./polyfill"; // do this before pdfjs
+
 // @ts-expect-error 🛑 inspite of esModuleInterop being on, you still need to use `import *`, and there are no typedefs
 import * as _pdfjs from "pdfjs-dist/es5/build/pdf";
 import { NodeCanvasFactory } from "./canvasFactory";
