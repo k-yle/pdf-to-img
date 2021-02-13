@@ -45,7 +45,7 @@ jobs:
           path: tests/__image_snapshots__/__diff_output__/*
 
       - name: 📈 Coveralls
-        uses: coverallsapp/github-action@v1.0.1
+        uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.github_token }}
 
