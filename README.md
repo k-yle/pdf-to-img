@@ -1,7 +1,7 @@
 # pdf-to-img
 
 [![Build Status](https://github.com/k-yle/pdf-to-img/workflows/Build%20and%20Test/badge.svg)](https://github.com/k-yle/pdf-to-img/actions)
-[![Coverage Status](https://coveralls.io/repos/github/k-yle/pdf-to-img/badge.svg?branch=main)](https://coveralls.io/github/k-yle/pdf-to-img?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/k-yle/pdf-to-img/badge.svg?branch=main&t=LQmPNl)](https://coveralls.io/github/k-yle/pdf-to-img?branch=main)
 [![npm version](https://badge.fury.io/js/pdf-to-img.svg)](https://badge.fury.io/js/pdf-to-img)
 [![npm](https://img.shields.io/npm/dt/pdf-to-img.svg)](https://www.npmjs.com/package/pdf-to-img)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/pdf-to-img)
@@ -55,5 +55,7 @@ You can supply a second argument which is an object of options:
 ```js
 const doc = await pdf("example.pdf", {
   password: "...", // if the PDF is encrypted
+
+  scale: 2.0, // use this for PDFs with high resolution images if the generated image is low quality
 });
 ```

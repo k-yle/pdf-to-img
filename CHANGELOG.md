@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 1.0.1 (2021-02-02)
+## 1.0.3 (2021-02-20)
+
+- add a `scale` option for producing high-resolution images
+
+## 1.0.2 (2021-02-02)
 
 - make it work when jest's `testEnvironment` is set to `node`.
 

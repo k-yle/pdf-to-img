@@ -21,6 +21,8 @@ export type PdfMetadata = {
 export type Options = {
   /** For cases where the PDF is encrypted with a password */
   password?: string;
+  /** defaults to `1`. If you want high-resolution images, increase this */
+  scale?: number;
 };
 
 const PREFIX = "data:application/pdf;base64,";
@@ -79,7 +81,7 @@ export async function pdf(
             this.pg += 1;
             const page = await pdfDocument.getPage(this.pg);
 
-            const viewport = page.getViewport({ scale: 1.0 });
+            const viewport = page.getViewport({ scale: options.scale ?? 1 });
 
             const canvasFactory = new NodeCanvasFactory();
             const { canvas, context } = canvasFactory.create(

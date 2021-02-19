@@ -4,3 +4,4 @@ coverage
 dist
 temp
 yarn.lock
+__diff_output__

@@ -103,3 +103,11 @@ describe("data url", () => {
     }
   });
 });
+
+describe("huge", () => {
+  it("can load a huge document with a custom scale", async () => {
+    for await (const page of await pdf("./tests/huge.pdf", { scale: 2.5 })) {
+      expect(page).toMatchImageSnapshot();
+    }
+  });
+});
