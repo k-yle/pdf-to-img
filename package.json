@@ -50,6 +50,10 @@
     "setupFilesAfterEnv": [
       "./tests/setupTests.ts"
     ],
+    "reporters": [
+      "default",
+      "jest-image-snapshot/src/outdated-snapshot-reporter.js"
+    ],
     "collectCoverage": true
   }
 }
