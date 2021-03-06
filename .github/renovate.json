@@ -7,6 +7,11 @@
   "timezone": "Pacific/Auckland",
   "schedule": ["every sunday"],
   "automerge": true,
+  "node": { "enabled": false },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 9am after 7am on saturday"]
+  },
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
