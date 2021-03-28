@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { promises as fs } from "fs";
+import { promises as fs, createReadStream } from "fs";
 import { pdf } from "../src";
 
 describe("example.pdf", () => {
@@ -101,6 +101,39 @@ describe("data url", () => {
     for await (const page of await pdf(dataUrl)) {
       expect(page).toMatchImageSnapshot();
     }
+  });
+});
+
+describe("Buffer", () => {
+  it("can load a document from a buffer", async () => {
+    const buf = await fs.readFile("./tests/example.pdf");
+
+    for await (const page of await pdf(buf)) {
+      expect(page).toMatchImageSnapshot();
+    }
+  });
+});
+
+describe("ReadableStream", () => {
+  it("can load a document from a ReadableStream", async () => {
+    const readableStream = createReadStream("./tests/example.pdf");
+
+    for await (const page of await pdf(readableStream)) {
+      expect(page).toMatchImageSnapshot();
+    }
+  });
+});
+
+describe("invalid", () => {
+  it("throws an error if you pass it invalid input", async () => {
+    await expect(
+      // @ts-expect-error testing invalid input
+      async () => pdf(1)
+    ).rejects.toThrow(
+      new Error(
+        "pdf-to-img received an unexpected input. Provide a path to file, a data URL, a Buffer, or a ReadableStream."
+      )
+    );
   });
 });
 

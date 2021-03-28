@@ -10,7 +10,7 @@
 
 Useful for unit tests of PDFs
 
-Supports nodejs v10, v12, and v14. `v15` is not supported yet.
+Supports nodejs v10, v12, v14, and v15.
 
 ## Install
 
