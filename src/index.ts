@@ -1,10 +1,9 @@
-import { promises as fs } from "fs";
-
 import "./polyfill"; // do this before pdfjs
 
 // @ts-expect-error 🛑 inspite of esModuleInterop being on, you still need to use `import *`, and there are no typedefs
 import * as _pdfjs from "pdfjs-dist/es5/build/pdf";
 import { NodeCanvasFactory } from "./canvasFactory";
+import { parseInput } from "./parseInput";
 
 const pdfjs: typeof import("pdfjs-dist") = _pdfjs;
 
@@ -25,12 +24,10 @@ export type Options = {
   scale?: number;
 };
 
-const PREFIX = "data:application/pdf;base64,";
-
 /**
  * Converts a PDF to a series of images. This returns a `Symbol.asyncIterator`
  *
- * @param pathOrDataUrl the path to a pdf file, or a data url.
+ * @param input Either (a) the path to a pdf file, or (b) a data url, or (c) a buffer, or (d) a ReadableStream.
  *
  * @example
  * ```js
@@ -52,16 +49,14 @@ const PREFIX = "data:application/pdf;base64,";
  * ```
  */
 export async function pdf(
-  pathOrDataUrl: string,
+  input: string | Buffer | NodeJS.ReadableStream,
   options: Options = {}
 ): Promise<{
   length: number;
   metadata: PdfMetadata;
   [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
 }> {
-  const data = pathOrDataUrl.startsWith(PREFIX)
-    ? Buffer.from(pathOrDataUrl.slice(PREFIX.length), "base64")
-    : new Uint8Array(await fs.readFile(pathOrDataUrl));
+  const data = await parseInput(input);
 
   const pdfDocument = await pdfjs.getDocument({
     data,
