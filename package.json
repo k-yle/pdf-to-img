@@ -24,7 +24,7 @@
     "trypublish": "npm publish || true"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=v10.24.1"
   },
   "dependencies": {
     "canvas": "^2.7.0",
