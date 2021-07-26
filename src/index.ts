@@ -1,11 +1,14 @@
 import "./polyfill"; // do this before pdfjs
 
 // 🛑 inspite of esModuleInterop being on, you still need to use `import *`, and there are no typedefs
-import * as _pdfjs from "pdfjs-dist/es5/build/pdf";
+import * as _pdfjs from "pdfjs-dist/legacy/build/pdf";
 import { NodeCanvasFactory } from "./canvasFactory";
 import { parseInput } from "./parseInput";
 
 const pdfjs: typeof import("pdfjs-dist") = _pdfjs;
+
+/** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
+const sanitize = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 
 export type PdfMetadata = {
   Title?: string;
@@ -67,7 +70,7 @@ export async function pdf(
 
   return {
     length: pdfDocument.numPages,
-    metadata: (await pdfDocument.getMetadata()).info,
+    metadata: sanitize((await pdfDocument.getMetadata()).info),
     [Symbol.asyncIterator]() {
       return {
         pg: 0,
