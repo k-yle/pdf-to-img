@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.1.1 (2021-07-28)
+
+- Update pdfjs and pin dependencies due to breaking change in minor update to pdfjs
+
 ## 1.1.0 (2021-03-28)
 
 - Accept `Buffer` and `ReadableStream` as well as a data URL or a path to a file on disk.

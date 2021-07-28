@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
   "labels": ["Dependencies"],
-  "rangeStrategy": "bump",
+  "rangeStrategy": "pin",
   "dependencyDashboard": false,
   "timezone": "Pacific/Auckland",
   "schedule": ["every sunday"],
