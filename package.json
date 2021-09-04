@@ -34,7 +34,7 @@
     "@types/jest-image-snapshot": "4.3.1",
     "@types/pdfjs-dist": "2.7.4",
     "eslint": "7.32.0",
-    "eslint-config-kyle": "2.58.0",
+    "eslint-config-kyle": "2.59.0",
     "jest": "27.1.0",
     "jest-image-snapshot": "4.5.1",
     "ts-jest": "27.0.5",
