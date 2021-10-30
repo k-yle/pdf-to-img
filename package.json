@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/jest-image-snapshot": "4.3.1",
-    "@types/pdfjs-dist": "2.7.5",
+    "@types/pdfjs-dist": "2.10.377",
     "eslint": "7.32.0",
     "eslint-config-kyle": "3.8.0",
     "jest": "27.3.1",
