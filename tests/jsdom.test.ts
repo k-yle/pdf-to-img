@@ -153,3 +153,32 @@ describe("huge", () => {
     }
   });
 });
+
+describe("Document Init Params", () => {
+  it("correctly handles encrypted PDFs if a password is supplied in the docInitParams", async () => {
+    const doc = await pdf("./tests/encrypted.pdf", {
+      docInitParams: {
+        password: "P@ssw0rd",
+      },
+    });
+    expect(doc).toHaveLength(1);
+    expect(doc.metadata).toStrictEqual({
+      Author: "Kyle Hensel\x00",
+      CreationDate: "D:20210201205458+12'00'",
+      Creator: "Microsoft® Word for Microsoft 365\x00",
+      EncryptFilterName: "Standard",
+      Language: "en-NZ",
+      IsAcroFormPresent: false,
+      IsCollectionPresent: false,
+      IsLinearized: false,
+      IsSignaturesPresent: false,
+      IsXFAPresent: false,
+      ModDate: "D:20210201205458+12'00'",
+      PDFFormatVersion: "1.7",
+      Producer: "Microsoft® Word for Microsoft 365\x00",
+    });
+    for await (const page of doc) {
+      expect(page).toMatchImageSnapshot();
+    }
+  });
+});
