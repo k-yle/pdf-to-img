@@ -2,6 +2,7 @@ import "./polyfill"; // do this before pdfjs
 
 // 🛑 inspite of esModuleInterop being on, you still need to use `import *`, and there are no typedefs
 import * as _pdfjs from "pdfjs-dist/legacy/build/pdf";
+import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
 import { NodeCanvasFactory } from "./canvasFactory";
 import { parseInput } from "./parseInput";
 
@@ -25,6 +26,8 @@ export type Options = {
   password?: string;
   /** defaults to `1`. If you want high-resolution images, increase this */
   scale?: number;
+  /** document init parameters which are passed to pdfjs.getDocument */
+  docInitParams?: Partial<DocumentInitParameters>;
 };
 
 /**
@@ -60,12 +63,14 @@ export async function pdf(
   [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
 }> {
   const data = await parseInput(input);
+  const { docInitParams } = options;
 
   const pdfDocument = await pdfjs.getDocument({
-    data,
+    password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
     cMapUrl: "../node_modules/pdfjs-dist/cmaps/", // TODO: this feels hacky
     cMapPacked: true,
-    password: options.password,
+    ...docInitParams,
+    data,
   }).promise;
 
   return {
