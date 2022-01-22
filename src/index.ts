@@ -75,6 +75,7 @@ export async function pdf(
       return {
         pg: 0,
         async next(this: { pg: number }) {
+          // eslint-disable-next-line no-unreachable-loop -- broken rule, this is a generator
           while (this.pg < pdfDocument.numPages) {
             this.pg += 1;
             const page = await pdfDocument.getPage(this.pg);
