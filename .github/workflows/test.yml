@@ -24,6 +24,7 @@ jobs:
           npm install
 
       - name: ✨ Lint
+        if: ${{ matrix.node-version != '10.x' }}
         run: |
           npm run lint
 
