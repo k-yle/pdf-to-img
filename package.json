@@ -27,7 +27,7 @@
     "node": ">=10"
   },
   "dependencies": {
-    "canvas": "2.8.0",
+    "canvas": "2.9.0",
     "pdfjs-dist": "2.10.377"
   },
   "devDependencies": {
