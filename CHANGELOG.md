@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.2.0 (2022-01-23)
+
+- Allow parameters to be passed through to `pdfjs.getDocument` ([#119])
+
+[#119]: https://github.com/k-yle/pdf-to-img/pull/119
+
 ## 1.1.1 (2021-07-28)
 
 - Update pdfjs and pin dependencies due to breaking change in minor update to pdfjs
