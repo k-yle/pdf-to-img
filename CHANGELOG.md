@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 2.0.0 (2022-11-05)
+
 - Support NodeJS v18 and v19
 - 💥 BREAKING CHANGE: Drop support for node v10 and v12
 - Remove control characters like `\x00` from PDF metadata
