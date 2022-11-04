@@ -70,9 +70,9 @@ describe("encrypted.pdf", () => {
     });
     expect(doc).toHaveLength(1);
     expect(doc.metadata).toStrictEqual({
-      Author: "Kyle Hensel\x00",
+      Author: "Kyle Hensel",
       CreationDate: "D:20210201205458+12'00'",
-      Creator: "Microsoft® Word for Microsoft 365\x00",
+      Creator: "Microsoft® Word for Microsoft 365",
       EncryptFilterName: "Standard",
       Language: "en-NZ",
       IsAcroFormPresent: false,
@@ -82,7 +82,7 @@ describe("encrypted.pdf", () => {
       IsXFAPresent: false,
       ModDate: "D:20210201205458+12'00'",
       PDFFormatVersion: "1.7",
-      Producer: "Microsoft® Word for Microsoft 365\x00",
+      Producer: "Microsoft® Word for Microsoft 365",
     });
     for await (const page of doc) {
       expect(page).toMatchImageSnapshot();
@@ -146,14 +146,6 @@ describe("invalid", () => {
   });
 });
 
-describe("huge", () => {
-  it("can load a huge document with a custom scale", async () => {
-    for await (const page of await pdf("./tests/huge.pdf", { scale: 2.5 })) {
-      expect(page).toMatchImageSnapshot();
-    }
-  });
-});
-
 describe("Document Init Params", () => {
   it("correctly handles encrypted PDFs if a password is supplied in the docInitParams", async () => {
     const doc = await pdf("./tests/encrypted.pdf", {
@@ -163,9 +155,9 @@ describe("Document Init Params", () => {
     });
     expect(doc).toHaveLength(1);
     expect(doc.metadata).toStrictEqual({
-      Author: "Kyle Hensel\x00",
+      Author: "Kyle Hensel",
       CreationDate: "D:20210201205458+12'00'",
-      Creator: "Microsoft® Word for Microsoft 365\x00",
+      Creator: "Microsoft® Word for Microsoft 365",
       EncryptFilterName: "Standard",
       Language: "en-NZ",
       IsAcroFormPresent: false,
@@ -175,7 +167,7 @@ describe("Document Init Params", () => {
       IsXFAPresent: false,
       ModDate: "D:20210201205458+12'00'",
       PDFFormatVersion: "1.7",
-      Producer: "Microsoft® Word for Microsoft 365\x00",
+      Producer: "Microsoft® Word for Microsoft 365",
     });
     for await (const page of doc) {
       expect(page).toMatchImageSnapshot();
