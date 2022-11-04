@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Support NodeJS v18 and v19
+- 💥 BREAKING CHANGE: Drop support for node v10 and v12
+
 ## 1.2.0 (2022-01-23)
 
 - Allow parameters to be passed through to `pdfjs.getDocument` ([#119])
