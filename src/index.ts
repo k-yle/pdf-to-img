@@ -9,7 +9,18 @@ import { parseInput } from "./parseInput";
 const pdfjs: typeof import("pdfjs-dist") = _pdfjs;
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
-const sanitize = <T>(x: T): T => JSON.parse(JSON.stringify(x));
+const sanitize = (x: object) => {
+  const obj: Record<string, string> = JSON.parse(JSON.stringify(x));
+
+  // remove UTF16 BOM and weird 0x0 character introduced in k-yle/pdf-to-img#138 and k-yle/pdf-to-img#184
+  for (const key in obj) {
+    if (typeof obj[key] === "string") {
+      // eslint-disable-next-line no-control-regex -- this is deliberate
+      obj[key] = obj[key].replace(/(^þÿ|\x00)/g, "");
+    }
+  }
+  return obj;
+};
 
 export type PdfMetadata = {
   Title?: string;
