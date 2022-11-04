@@ -5,13 +5,13 @@
   "rangeStrategy": "pin",
   "dependencyDashboard": false,
   "timezone": "Pacific/Auckland",
-  "schedule": ["every sunday"],
+  "schedule": ["every 4 weeks on saturday"],
   "automerge": true,
   "node": { "enabled": false },
   "ignoreDeps": ["node"],
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 9am after 7am on saturday"]
+    "schedule": ["before 9am after 7am every 4 weeks on saturday"]
   },
   "packageRules": [
     {
