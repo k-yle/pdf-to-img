@@ -5,8 +5,10 @@ import * as _pdfjs from "pdfjs-dist/legacy/build/pdf";
 import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
 import { NodeCanvasFactory } from "./canvasFactory";
 import { parseInput } from "./parseInput";
+import path from "path";
 
 const pdfjs: typeof import("pdfjs-dist") = _pdfjs;
+const pdfjs_path = path.dirname(require.resolve("pdfjs-dist/package.json"));
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
 const sanitize = (x: object) => {
@@ -78,7 +80,8 @@ export async function pdf(
 
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
-    cMapUrl: "../node_modules/pdfjs-dist/cmaps/", // TODO: this feels hacky
+    standardFontDataUrl: path.join(pdfjs_path, "standard_fonts"),
+    cMapUrl: path.join(pdfjs_path, "cmaps"),
     cMapPacked: true,
     ...docInitParams,
     data,
