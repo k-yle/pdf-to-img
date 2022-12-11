@@ -80,8 +80,8 @@ export async function pdf(
 
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
-    standardFontDataUrl: path.join(pdfjsPath, "standard_fonts"),
-    cMapUrl: path.join(pdfjsPath, "cmaps"),
+    standardFontDataUrl: path.join(pdfjsPath, `standard_fonts${path.sep}`),
+    cMapUrl: path.join(pdfjsPath, `cmaps${path.sep}`),
     cMapPacked: true,
     ...docInitParams,
     data,
