@@ -3,12 +3,12 @@ import "./polyfill"; // do this before pdfjs
 // 🛑 inspite of esModuleInterop being on, you still need to use `import *`, and there are no typedefs
 import * as _pdfjs from "pdfjs-dist/legacy/build/pdf";
 import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
+import path from "path";
 import { NodeCanvasFactory } from "./canvasFactory";
 import { parseInput } from "./parseInput";
-import path from "path";
 
 const pdfjs: typeof import("pdfjs-dist") = _pdfjs;
-const pdfjs_path = path.dirname(require.resolve("pdfjs-dist/package.json"));
+const pdfjsPath = path.dirname(require.resolve("pdfjs-dist/package.json"));
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
 const sanitize = (x: object) => {
@@ -80,8 +80,8 @@ export async function pdf(
 
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
-    standardFontDataUrl: path.join(pdfjs_path, "standard_fonts"),
-    cMapUrl: path.join(pdfjs_path, "cmaps"),
+    standardFontDataUrl: path.join(pdfjsPath, "standard_fonts"),
+    cMapUrl: path.join(pdfjsPath, "cmaps"),
     cMapPacked: true,
     ...docInitParams,
     data,
