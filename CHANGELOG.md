@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 2.1.1 (2022-12-13)
+
+- Fix console warning about fonts
+
 ## 2.1.0 (2022-12-11)
 
 - Fix issue where some standard fonts weren't being loaded
