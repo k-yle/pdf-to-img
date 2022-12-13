@@ -174,3 +174,11 @@ describe("Document Init Params", () => {
     }
   });
 });
+
+describe("weird fonts", () => {
+  it("correctly resolves fonts to pdfjs", async () => {
+    for await (const page of await pdf("./tests/weird-fonts.pdf")) {
+      expect(page).toMatchImageSnapshot();
+    }
+  }, 10_000); // this is a slow test
+});
