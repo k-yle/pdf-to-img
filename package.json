@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "canvas": "2.11.0",
-    "pdfjs-dist": "3.1.81"
+    "pdfjs-dist": "3.2.146"
   },
   "devDependencies": {
     "@types/jest-image-snapshot": "6.1.0",
