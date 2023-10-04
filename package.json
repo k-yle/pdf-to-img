@@ -1,6 +1,6 @@
 {
   "name": "pdf-to-img",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "author": "Kyle Hensel",
   "description": "📃📸 Converts PDFs to images in nodejs with no native dependencies",
   "main": "dist",

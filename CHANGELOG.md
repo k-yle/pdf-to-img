@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 2.1.2 (2023-10-04)
+
+- Update node-canvas to `v2.11.2`
+
 ## 2.1.1 (2022-12-13)
 
 - Fix console warning about fonts
