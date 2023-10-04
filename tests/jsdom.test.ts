@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { promises as fs, createReadStream } from "fs";
+import { promises as fs, createReadStream } from "node:fs";
 import { pdf } from "../src";
 
 describe("example.pdf", () => {
@@ -14,9 +14,9 @@ describe("example.pdf", () => {
 
 describe("multipage.pdf", () => {
   it("works for multipage PDFs", async () => {
-    const doc = await pdf("./tests/multipage.pdf");
-    expect(doc).toHaveLength(2);
-    expect(doc.metadata).toStrictEqual({
+    const document = await pdf("./tests/multipage.pdf");
+    expect(document).toHaveLength(2);
+    expect(document.metadata).toStrictEqual({
       Author: "Kyle Hensel",
       CreationDate: "D:20210202090134+12'00'",
       Creator: "Microsoft® PowerPoint® for Microsoft 365",
@@ -32,7 +32,7 @@ describe("multipage.pdf", () => {
       Producer: "Microsoft® PowerPoint® for Microsoft 365",
       Title: "",
     });
-    for await (const page of doc) {
+    for await (const page of document) {
       expect(page).toMatchImageSnapshot();
     }
   });
@@ -40,9 +40,9 @@ describe("multipage.pdf", () => {
 
 describe("test-pattern.pdf", () => {
   it("correctly handles PDFs with no margin", async () => {
-    const doc = await pdf("./tests/test-pattern.pdf");
-    expect(doc).toHaveLength(1);
-    expect(doc.metadata).toStrictEqual({
+    const document = await pdf("./tests/test-pattern.pdf");
+    expect(document).toHaveLength(1);
+    expect(document.metadata).toStrictEqual({
       Author: "KyleH",
       CreationDate: "D:20210115104832+13'00'",
       EncryptFilterName: null,
@@ -57,7 +57,7 @@ describe("test-pattern.pdf", () => {
       Producer: "Microsoft: Print To PDF",
       Title: "Pattern Test - PAL Static.png",
     });
-    for await (const page of doc) {
+    for await (const page of document) {
       expect(page).toMatchImageSnapshot();
     }
   });
@@ -65,11 +65,11 @@ describe("test-pattern.pdf", () => {
 
 describe("encrypted.pdf", () => {
   it("correctly handles encrypted PDFs if a password is supplied", async () => {
-    const doc = await pdf("./tests/encrypted.pdf", {
+    const document = await pdf("./tests/encrypted.pdf", {
       password: "P@ssw0rd",
     });
-    expect(doc).toHaveLength(1);
-    expect(doc.metadata).toStrictEqual({
+    expect(document).toHaveLength(1);
+    expect(document.metadata).toStrictEqual({
       Author: "Kyle Hensel",
       CreationDate: "D:20210201205458+12'00'",
       Creator: "Microsoft® Word for Microsoft 365",
@@ -84,7 +84,7 @@ describe("encrypted.pdf", () => {
       PDFFormatVersion: "1.7",
       Producer: "Microsoft® Word for Microsoft 365",
     });
-    for await (const page of doc) {
+    for await (const page of document) {
       expect(page).toMatchImageSnapshot();
     }
   });
@@ -148,13 +148,13 @@ describe("invalid", () => {
 
 describe("Document Init Params", () => {
   it("correctly handles encrypted PDFs if a password is supplied in the docInitParams", async () => {
-    const doc = await pdf("./tests/encrypted.pdf", {
+    const document = await pdf("./tests/encrypted.pdf", {
       docInitParams: {
         password: "P@ssw0rd",
       },
     });
-    expect(doc).toHaveLength(1);
-    expect(doc.metadata).toStrictEqual({
+    expect(document).toHaveLength(1);
+    expect(document.metadata).toStrictEqual({
       Author: "Kyle Hensel",
       CreationDate: "D:20210201205458+12'00'",
       Creator: "Microsoft® Word for Microsoft 365",
@@ -169,7 +169,7 @@ describe("Document Init Params", () => {
       PDFFormatVersion: "1.7",
       Producer: "Microsoft® Word for Microsoft 365",
     });
-    for await (const page of doc) {
+    for await (const page of document) {
       expect(page).toMatchImageSnapshot();
     }
   });

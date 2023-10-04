@@ -1,5 +1,5 @@
+import { strict as invariant } from "node:assert";
 import Canvas from "canvas";
-import { strict as invariant } from "assert";
 
 type Factory = {
   canvas: Canvas.Canvas | null;

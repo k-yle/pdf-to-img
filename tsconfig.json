@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
+    "lib": ["es2021"],
     "module": "commonjs",
     "target": "es2015",
     "moduleResolution": "node",

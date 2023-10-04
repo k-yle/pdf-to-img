@@ -1,9 +1,9 @@
 import "./polyfill"; // do this before pdfjs
 
+import path from "node:path";
 // 🛑 inspite of esModuleInterop being on, you still need to use `import *`, and there are no typedefs
 import * as _pdfjs from "pdfjs-dist/legacy/build/pdf";
 import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
-import path from "path";
 import { NodeCanvasFactory } from "./canvasFactory";
 import { parseInput } from "./parseInput";
 
@@ -12,16 +12,16 @@ const pdfjsPath = path.dirname(require.resolve("pdfjs-dist/package.json"));
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
 const sanitize = (x: object) => {
-  const obj: Record<string, string> = JSON.parse(JSON.stringify(x));
+  const object: Record<string, string> = JSON.parse(JSON.stringify(x));
 
   // remove UTF16 BOM and weird 0x0 character introduced in k-yle/pdf-to-img#138 and k-yle/pdf-to-img#184
-  for (const key in obj) {
-    if (typeof obj[key] === "string") {
+  for (const key in object) {
+    if (typeof object[key] === "string") {
       // eslint-disable-next-line no-control-regex -- this is deliberate
-      obj[key] = obj[key].replace(/(^þÿ|\x00)/g, "");
+      object[key] = object[key].replaceAll(/(^þÿ|\u0000)/g, "");
     }
   }
-  return obj;
+  return object;
 };
 
 export type PdfMetadata = {
@@ -76,20 +76,21 @@ export async function pdf(
   [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
 }> {
   const data = await parseInput(input);
-  const { docInitParams } = options;
 
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
     standardFontDataUrl: path.join(pdfjsPath, `standard_fonts${path.sep}`),
     cMapUrl: path.join(pdfjsPath, `cmaps${path.sep}`),
     cMapPacked: true,
-    ...docInitParams,
+    ...options.docInitParams,
     data,
   }).promise;
 
+  const metadata = await pdfDocument.getMetadata();
+
   return {
     length: pdfDocument.numPages,
-    metadata: sanitize((await pdfDocument.getMetadata()).info),
+    metadata: sanitize(metadata.info),
     [Symbol.asyncIterator]() {
       return {
         pg: 0,
