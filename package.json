@@ -19,30 +19,31 @@
   "repository": "https://github.com/k-yle/pdf-to-img",
   "scripts": {
     "build": "tsc && rm -rf dist && mv temp/src dist && rm -rf temp",
-    "lint": "eslint --format pretty --ext .ts --ignore-path .gitignore .",
+    "lint": "eslint --ignore-path .gitignore .",
     "test": "jest",
     "trypublish": "npm publish || true"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "dependencies": {
     "canvas": "2.11.2",
     "pdfjs-dist": "3.2.146"
   },
   "devDependencies": {
-    "@types/jest-image-snapshot": "6.1.0",
+    "@rushstack/eslint-patch": "^1.5.1",
+    "@types/jest-image-snapshot": "^6.2.1",
     "@types/pdfjs-dist": "2.10.377",
-    "eslint": "8.41.0",
-    "eslint-config-kyle": "11.10.1",
-    "jest": "29.5.0",
-    "jest-environment-jsdom": "29.5.0",
-    "jest-image-snapshot": "6.1.0",
-    "ts-jest": "29.1.0",
-    "typescript": "5.0.4"
+    "eslint": "^8.50.0",
+    "eslint-config-kyle": "^14.12.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-image-snapshot": "^6.2.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
   },
-  "eslintConfig": {
-    "extends": "kyle"
+  "prettier": {
+    "trailingComma": "es5"
   },
   "jest": {
     "transform": {
