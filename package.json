@@ -45,6 +45,9 @@
   "prettier": {
     "trailingComma": "es5"
   },
+  "prettier": {
+    "trailingComma": "es5"
+  },
   "jest": {
     "transform": {
       "^.+\\.(t|j)sx?$": "ts-jest"
