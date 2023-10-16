@@ -20,6 +20,24 @@ npm install -S pdf-to-img
 
 ## Example
 
+Nodejs
+
+```js
+const { pdf } = require("pdf-to-img");
+const fs = require("fs");
+
+const outputDirectory = "tmp";
+async function pdfToPng() {
+    // fileName: 0.png, 1.png, ...
+    let counter = 0;
+    for await (const image of await pdf("example.pdf", { scale: 3.0 })) {
+        fs.writeFileSync(`${outputDirectory}/${counter}.png`, image);
+        counter++;
+    }
+}
+pdfToPng();
+```
+
 Using jest and [jest-image-snapshot](https://npm.im/jest-image-snapshot).
 
 ```js
