@@ -23,8 +23,11 @@
     "test": "jest",
     "trypublish": "npm publish || true"
   },
+  "bin": {
+    "pdf2img": "./bin/cli.mjs"
+  },
   "engines": {
-    "node": ">=16"
+    "node": ">=16.17"
   },
   "dependencies": {
     "canvas": "2.11.2",
