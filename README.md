@@ -10,7 +10,7 @@
 
 Useful for unit tests of PDFs
 
-Supports nodejs v14, v16, v18 and v19.
+Supports nodejs v16 to v20.
 
 ## Install
 
@@ -20,7 +20,24 @@ npm install -S pdf-to-img
 
 ## Example
 
-Using jest and [jest-image-snapshot](https://npm.im/jest-image-snapshot).
+NodeJS:
+
+```js
+const { promises: fs } = require("node:fs");
+const { pdf } = require("pdf-to-img");
+
+async function main() {
+  let counter = 1;
+  const document = await pdf("example.pdf", { scale: 3 });
+  for await (const image of document) {
+    await fs.writeFile(`page${counter}.png`, image);
+    counter++;
+  }
+}
+main();
+```
+
+Using jest and [jest-image-snapshot](https://npm.im/jest-image-snapshot):
 
 ```js
 const { pdf } = require("pdf-to-img");
