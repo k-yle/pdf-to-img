@@ -39,5 +39,4 @@ export class NodeCanvasFactory {
     canvasAndContext.canvas = null;
     canvasAndContext.context = null;
   }
-  /* eslint-enable class-methods-use-this, no-param-reassign */
 }
