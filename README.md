@@ -10,7 +10,7 @@
 
 Useful for unit tests of PDFs
 
-Supports nodejs v16 to v20.
+Supports nodejs v16.17+, and comes with a CLI.
 
 ## Install
 
@@ -75,4 +75,18 @@ const doc = await pdf("example.pdf", {
 
   scale: 2.0, // use this for PDFs with high resolution images if the generated image is low quality
 });
+```
+
+## CLI
+
+```sh
+npm i -g pdf-to-img@latest
+
+# example:
+pdf2img inputFile.pdf
+
+# options:
+# -s / --scale: set the scale (defaults to 3)
+# -p / --password: the password to unlock the PDF
+# -o / --output: the output folder, relative to the current working directory.
 ```
