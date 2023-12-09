@@ -6,7 +6,7 @@
 [![npm](https://img.shields.io/npm/dt/pdf-to-img.svg)](https://www.npmjs.com/package/pdf-to-img)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/pdf-to-img)
 
-📃📸 Converts PDFs to images in nodejs with no native dependencies.
+📃📸 Converts PDFs to images in nodejs.
 
 Useful for unit tests of PDFs
 
