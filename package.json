@@ -21,7 +21,7 @@
     "build": "tsc && rm -rf dist && mv temp/src dist && rm -rf temp",
     "lint": "eslint --ignore-path .gitignore .",
     "test": "jest",
-    "trypublish": "npm publish || true"
+    "trypublish": "npm publish --provenance || true"
   },
   "bin": {
     "pdf2img": "./bin/cli.mjs"
