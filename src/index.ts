@@ -82,6 +82,7 @@ export async function pdf(
     standardFontDataUrl: path.join(pdfjsPath, `standard_fonts${path.sep}`),
     cMapUrl: path.join(pdfjsPath, `cmaps${path.sep}`),
     cMapPacked: true,
+    isEvalSupported: false,
     ...options.docInitParams,
     data,
   }).promise;
