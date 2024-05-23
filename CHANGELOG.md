@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 3.0.0 (2024-05-24)
+
 - 💥 BREAKING CHANGE: Drop support for node v14 and v16. The minimum version is now v16.17
+- 💥 BREAKING CHANGE: disable `isEvalSupported` by default to resolve [CVE-2024-4367](https://github.com/advisories/GHSA-wgrm-67xf-hhpq)
 - Added a CLI
 
 ## 2.1.2 (2023-10-04)
