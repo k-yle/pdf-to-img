@@ -28,8 +28,8 @@ npm install -S pdf-to-img
 NodeJS (using ESM Modules):
 
 ```js
-const { promises: fs } = require("node:fs");
-const { pdf } = require("pdf-to-img");
+import { promises as fs } from "node:fs";
+import { pdf } from "pdf-to-img";
 
 async function main() {
   let counter = 1;
@@ -45,8 +45,9 @@ main();
 If your app does not support ESM modules, just change the import:
 
 ```diff
-  const { promises: fs } = require("node:fs");
-- const { pdf } = require("pdf-to-img");
++ const { promises: fs } = require("node:fs");
+- import { promises as fs } from "node:fs";
+- import { pdf } from "pdf-to-img";
 
   async function main() {
 +   const { pdf } = await import("pdf-to-img");

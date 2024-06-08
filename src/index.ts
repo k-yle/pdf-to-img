@@ -1,12 +1,14 @@
-import "./polyfill"; // do this before pdfjs
-
+import "./polyfill.js"; // do this before pdfjs
+import { createRequire } from "node:module";
 import path from "node:path";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api.js";
 import { NodeCanvasFactory } from "./canvasFactory.js";
 import { parseInput } from "./parseInput.js";
 
-const pdfjsPath = path.dirname(require.resolve("pdfjs-dist/package.json"));
+const pdfjsPath = path.dirname(
+  createRequire(import.meta.url).resolve("pdfjs-dist/package.json")
+);
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
 const sanitize = (x: object) => {

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 // @ts-check
-/* eslint-disable import/extensions */
 import { promises as fs } from "node:fs";
 import { parseArgs } from "node:util";
 import { join } from "node:path";

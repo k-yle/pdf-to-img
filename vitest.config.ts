@@ -5,7 +5,7 @@ export default defineConfig({
     setupFiles: ["./tests/setupTests.ts"],
     coverage: {
       provider: "v8",
-      exclude: ["node_modules", "bin", ".eslintrc.js"],
+      exclude: ["node_modules", "bin", ".eslintrc.cjs"],
     },
     testTimeout: 30_000,
   },
