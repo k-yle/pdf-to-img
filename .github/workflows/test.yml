@@ -35,7 +35,7 @@ jobs:
 
       - name: 🧪 Test
         run: |
-          npm test
+          npm test -- --coverage
         env:
           FORCE_COLOR: 1
           JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE: 1

@@ -1,6 +1,5 @@
-/**
- * @jest-environment node
- */
+// @vitest-environment node
+import { describe, expect, it } from "vitest";
 import { pdf } from "../src";
 
 describe("example.pdf in node", () => {

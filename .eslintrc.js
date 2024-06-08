@@ -6,4 +6,7 @@ module.exports = {
   rules: {
     quotes: "off",
   },
+  settings: {
+    jest: { version: 29 },
+  },
 };

@@ -37,7 +37,7 @@ async function main() {
 main();
 ```
 
-Using jest and [jest-image-snapshot](https://npm.im/jest-image-snapshot):
+Using jest (or vitest) with [jest-image-snapshot](https://npm.im/jest-image-snapshot):
 
 ```js
 const { pdf } = require("pdf-to-img");

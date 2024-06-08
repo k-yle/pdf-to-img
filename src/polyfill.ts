@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 // @ts-expect-error pdfjs references window.xxx, which fails if the jest testEnvironment is node
 global.window ||= global;
 
