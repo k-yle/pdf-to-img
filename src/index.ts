@@ -1,13 +1,11 @@
 import "./polyfill"; // do this before pdfjs
 
 import path from "node:path";
-// 🛑 inspite of esModuleInterop being on, you still need to use `import *`, and there are no typedefs
-import * as _pdfjs from "pdfjs-dist/legacy/build/pdf";
-import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
-import { NodeCanvasFactory } from "./canvasFactory";
-import { parseInput } from "./parseInput";
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
+import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api.js";
+import { NodeCanvasFactory } from "./canvasFactory.js";
+import { parseInput } from "./parseInput.js";
 
-const pdfjs: typeof import("pdfjs-dist") = _pdfjs;
 const pdfjsPath = path.dirname(require.resolve("pdfjs-dist/package.json"));
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
@@ -46,7 +44,7 @@ export type Options = {
 /**
  * Converts a PDF to a series of images. This returns a `Symbol.asyncIterator`
  *
- * @param input Either (a) the path to a pdf file, or (b) a data url, or (c) a buffer, or (d) a ReadableStream.
+ * @param input Either (a) the path to a pdf file, or (b) a data url, or (b) a buffer, (c) a buffer, or (e) a ReadableStream.
  *
  * @example
  * ```js
@@ -68,7 +66,7 @@ export type Options = {
  * ```
  */
 export async function pdf(
-  input: string | Buffer | NodeJS.ReadableStream,
+  input: string | Uint8Array | Buffer | NodeJS.ReadableStream,
   options: Options = {}
 ): Promise<{
   length: number;
@@ -77,13 +75,15 @@ export async function pdf(
 }> {
   const data = await parseInput(input);
 
+  const canvasFactory = new NodeCanvasFactory();
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
     standardFontDataUrl: path.join(pdfjsPath, `standard_fonts${path.sep}`),
     cMapUrl: path.join(pdfjsPath, `cmaps${path.sep}`),
     cMapPacked: true,
-    isEvalSupported: false,
     ...options.docInitParams,
+    isEvalSupported: false,
+    canvasFactory,
     data,
   }).promise;
 
@@ -102,7 +102,6 @@ export async function pdf(
 
             const viewport = page.getViewport({ scale: options.scale ?? 1 });
 
-            const canvasFactory = new NodeCanvasFactory();
             const { canvas, context } = canvasFactory.create(
               viewport.width,
               viewport.height
@@ -111,7 +110,6 @@ export async function pdf(
             await page.render({
               canvasContext: context,
               viewport,
-              canvasFactory,
             }).promise;
 
             return { done: false, value: canvas.toBuffer() };

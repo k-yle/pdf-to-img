@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { createReadStream, promises as fs } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { pdf } from "../src";
+import { pdf } from "../src/index.js";
 
 describe("example.pdf in node", () => {
   it("correctly generates a single png for the one page in nodejs environment", async () => {

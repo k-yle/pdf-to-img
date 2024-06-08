@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 4.0.0 (2024-06-08)
+
+- 💥 BREAKING CHANGE: Drop support for node v16. The minimum version is now v18
+- Updated pdfjs to v4
+
 ## 3.0.0 (2024-05-24)
 
 - 💥 BREAKING CHANGE: Drop support for node v14 and v16. The minimum version is now v16.17

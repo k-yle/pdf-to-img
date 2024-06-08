@@ -5,6 +5,7 @@ module.exports = {
   extends: ["kyle"],
   rules: {
     quotes: "off",
+    "import/extensions": "off",
   },
   settings: {
     jest: { version: 29 },

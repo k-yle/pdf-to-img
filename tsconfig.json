@@ -4,9 +4,9 @@
     "esModuleInterop": true,
     "lib": ["es2021"],
     "skipLibCheck": true,
-    "module": "commonjs",
-    "target": "es2015",
-    "moduleResolution": "node",
+    "module": "node16",
+    "target": "es2020",
+    "moduleResolution": "node16",
     "downlevelIteration": true,
     "declaration": true,
     "outDir": "temp"

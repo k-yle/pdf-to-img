@@ -3,8 +3,9 @@
   "version": "3.0.0",
   "author": "Kyle Hensel",
   "description": "📃📸 Converts PDFs to images in nodejs",
-  "main": "dist",
+  "exports": "./dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "license": "MIT",
   "files": [
     "dist"
@@ -28,11 +29,12 @@
     "pdf2img": "./bin/cli.mjs"
   },
   "engines": {
-    "node": ">=16.17"
+    "node": ">=18"
   },
+  "engineStrict": true,
   "dependencies": {
     "canvas": "2.11.2",
-    "pdfjs-dist": "3.2.146"
+    "pdfjs-dist": "4.2.67"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.5.1",

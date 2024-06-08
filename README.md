@@ -10,7 +10,7 @@
 
 Useful for unit tests of PDFs
 
-Supports nodejs v16.17+, and comes with a CLI.
+Supports nodejs v18+, and comes with a CLI.
 
 ## Install
 
@@ -18,9 +18,14 @@ Supports nodejs v16.17+, and comes with a CLI.
 npm install -S pdf-to-img
 ```
 
+> [!IMPORTANT]
+> You should use v4 by default. v4 requires nodejs v18 or later, and ESM modules.
+>
+> If you can't upgrade to v4 yet, you can still use v3. If you use v3, you can safely ignore `npm audit`'s [warning about pdfjs-dist](https://github.com/advisories/GHSA-wgrm-67xf-hhpq), since this library [disables `eval` by default](https://github.com/k-yle/pdf-to-img/commit/bdac3a1dcc2004c3f1fe7380bbb860086ec2746f).
+
 ## Example
 
-NodeJS:
+NodeJS (using ESM Modules):
 
 ```js
 const { promises: fs } = require("node:fs");
@@ -37,10 +42,28 @@ async function main() {
 main();
 ```
 
+If your app does not support ESM modules, just change the import:
+
+```diff
+  const { promises: fs } = require("node:fs");
+- const { pdf } = require("pdf-to-img");
+
+  async function main() {
++   const { pdf } = await import("pdf-to-img");
+    let counter = 1;
+    const document = await pdf("example.pdf", { scale: 3 });
+    for await (const image of document) {
+      await fs.writeFile(`page${counter}.png`, image);
+      counter++;
+    }
+  }
+  main();
+```
+
 Using jest (or vitest) with [jest-image-snapshot](https://npm.im/jest-image-snapshot):
 
 ```js
-const { pdf } = require("pdf-to-img");
+import { pdf } from "pdf-to-img";
 
 it("generates a PDF", async () => {
   for await (const page of await pdf("example.pdf")) {

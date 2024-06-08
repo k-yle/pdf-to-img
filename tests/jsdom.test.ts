@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { promises as fs, createReadStream } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { pdf } from "../src";
+import { pdf } from "../src/index.js";
 
 describe("example.pdf", () => {
   it("correctly generates a single png for the one page", async () => {
@@ -139,7 +139,7 @@ describe("invalid", () => {
       async () => pdf(1)
     ).rejects.toThrow(
       new Error(
-        "pdf-to-img received an unexpected input. Provide a path to file, a data URL, a Buffer, or a ReadableStream."
+        "pdf-to-img received an unexpected input. Provide a path to file, a data URL, a Uint8Array, a Buffer, or a ReadableStream."
       )
     );
   });
