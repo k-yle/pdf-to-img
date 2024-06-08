@@ -42,7 +42,7 @@ async function main() {
 main();
 ```
 
-If your app does not support ESM modules, just change the import:
+If your app does not support ESM modules, you can use v3 (see the warning above), or just change the import:
 
 ```diff
 + const { promises: fs } = require("node:fs");
