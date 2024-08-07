@@ -73,6 +73,7 @@ export async function pdf(
 ): Promise<{
   length: number;
   metadata: PdfMetadata;
+  getPage(pageNumber: number): Promise<Buffer>;
   [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
 }> {
   const data = await parseInput(input);
@@ -91,30 +92,36 @@ export async function pdf(
 
   const metadata = await pdfDocument.getMetadata();
 
+  async function getPage(pageNumber: number) {
+    const page = await pdfDocument.getPage(pageNumber);
+
+    const viewport = page.getViewport({ scale: options.scale ?? 1 });
+
+    const { canvas, context } = canvasFactory.create(
+      viewport.width,
+      viewport.height
+    );
+
+    await page.render({
+      canvasContext: context,
+      viewport,
+    }).promise;
+
+    return canvas.toBuffer();
+  }
+
   return {
     length: pdfDocument.numPages,
     metadata: sanitize(metadata.info),
+    getPage,
     [Symbol.asyncIterator]() {
       return {
         pg: 0,
         async next(this: { pg: number }) {
           if (this.pg < pdfDocument.numPages) {
             this.pg += 1;
-            const page = await pdfDocument.getPage(this.pg);
 
-            const viewport = page.getViewport({ scale: options.scale ?? 1 });
-
-            const { canvas, context } = canvasFactory.create(
-              viewport.width,
-              viewport.height
-            );
-
-            await page.render({
-              canvasContext: context,
-              viewport,
-            }).promise;
-
-            return { done: false, value: canvas.toBuffer() };
+            return { done: false, value: await getPage(this.pg) };
           }
           return { done: true, value: undefined };
         },

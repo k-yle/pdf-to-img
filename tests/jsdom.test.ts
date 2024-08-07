@@ -35,6 +35,11 @@ describe("multipage.pdf", () => {
       expect(page).toMatchImageSnapshot();
     }
   });
+
+  it("can read a specific page number", async () => {
+    const document = await pdf("./tests/multipage.pdf");
+    expect(await document.getPage(2)).toMatchImageSnapshot();
+  });
 });
 
 describe("test-pattern.pdf", () => {

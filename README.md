@@ -38,6 +38,10 @@ async function main() {
     await fs.writeFile(`page${counter}.png`, image);
     counter++;
   }
+
+
+  // you can also read a specific page number:
+  const page12buffer = await document.getPage(12)
 }
 main();
 ```
