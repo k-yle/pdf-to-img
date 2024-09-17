@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 4.1.1 (2024-09-17)
+
+- Fix bugs with the CLI on Windows
+
 ## 4.1.0 (2024-08-07)
 
 - Added a new method to read a specific page number
