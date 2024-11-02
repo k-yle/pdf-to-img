@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 4.2.0 (2024-11-02)
+
 - Add a new option called `renderParams`. This allows you to generate transparent images using `renderParams: { background: 'transparent' }` ([#244])
 
 [#244]: https://github.com/k-yle/pdf-to-img/pull/244
