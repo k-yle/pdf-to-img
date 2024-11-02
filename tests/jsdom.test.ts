@@ -186,3 +186,23 @@ describe("weird fonts", () => {
     }
   }, 10_000); // this is a slow test
 });
+
+describe("background colour", () => {
+  it("can generate transparent images", async () => {
+    for await (const page of await pdf("./tests/encrypted.pdf", {
+      password: "P@ssw0rd",
+      renderParams: { background: "transparent" },
+    })) {
+      expect(page).toMatchImageSnapshot();
+    }
+  });
+
+  it("can generate pngs with a custom background colour", async () => {
+    for await (const page of await pdf("./tests/encrypted.pdf", {
+      password: "P@ssw0rd",
+      renderParams: { background: "red" },
+    })) {
+      expect(page).toMatchImageSnapshot();
+    }
+  });
+});

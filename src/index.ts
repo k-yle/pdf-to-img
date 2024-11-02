@@ -2,7 +2,10 @@ import "./polyfill.js"; // do this before pdfjs
 import { createRequire } from "node:module";
 import path from "node:path";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
-import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api.js";
+import type {
+  DocumentInitParameters,
+  RenderParameters,
+} from "pdfjs-dist/types/src/display/api.js";
 import { NodeCanvasFactory } from "./canvasFactory.js";
 import { parseInput } from "./parseInput.js";
 
@@ -39,6 +42,8 @@ export type Options = {
   password?: string;
   /** defaults to `1`. If you want high-resolution images, increase this */
   scale?: number;
+  /** render parameters which are passed to `PdfPage#render` */
+  renderParams?: Omit<RenderParameters, "canvasContext" | "viewport">;
   /** document init parameters which are passed to pdfjs.getDocument */
   docInitParams?: Partial<DocumentInitParameters>;
 };
@@ -99,12 +104,14 @@ export async function pdf(
 
     const { canvas, context } = canvasFactory.create(
       viewport.width,
-      viewport.height
+      viewport.height,
+      !!options.renderParams?.background
     );
 
     await page.render({
       canvasContext: context,
       viewport,
+      ...options.renderParams,
     }).promise;
 
     return canvas.toBuffer();
