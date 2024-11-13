@@ -1,4 +1,3 @@
-import "./polyfill.js"; // do this before pdfjs
 import { createRequire } from "node:module";
 import path from "node:path";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
