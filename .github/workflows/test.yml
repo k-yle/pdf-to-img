@@ -4,15 +4,20 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 21.x]
+        node-version: [18.x, 20.x, 22.x, 23.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
+      - name: ⏬ switch off autocrlf
+        # see https://github.com/actions/checkout/issues/135
+        run: git config --global core.autocrlf false
+
       - name: ⏬ Checkout code
         uses: actions/checkout@v4
 
@@ -48,6 +53,7 @@ jobs:
           path: tests/__image_snapshots__/__diff_output__/*
 
       - name: 📈 Coveralls
+        continue-on-error: true # this integration is quite buggy
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949 # v2.2.3
         with:
           github-token: ${{ secrets.github_token }}
