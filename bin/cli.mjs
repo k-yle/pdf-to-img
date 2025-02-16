@@ -3,7 +3,7 @@
 // @ts-check
 import { promises as fs } from "node:fs";
 import { parseArgs } from "node:util";
-import { join, basename, resolve } from "node:path";
+import { basename, join, resolve } from "node:path";
 import { pdf } from "../dist/index.js";
 
 const { values, positionals } = parseArgs({
@@ -24,9 +24,10 @@ if (!inputFile) {
 }
 
 /** the name of the file, without the file extension */
-const inputFileBaseName = /** @type {string} */ (
-  basename(inputFile)
-).replace(/\.pdf$/, "");
+const inputFileBaseName = /** @type {string} */ (basename(inputFile)).replace(
+  /\.pdf$/,
+  ""
+);
 
 const fullInputFilePath = resolve(process.cwd(), inputFile);
 const outputFolder = join(process.cwd(), values.output || "");

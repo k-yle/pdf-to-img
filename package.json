@@ -21,7 +21,7 @@
   "repository": "https://github.com/k-yle/pdf-to-img",
   "scripts": {
     "build": "tsc && rm -rf dist && mv temp/src dist && rm -rf temp",
-    "lint": "eslint --ignore-path .gitignore .",
+    "lint": "eslint .",
     "test": "vitest --pool=forks",
     "trypublish": "npm publish --provenance || true"
   },
@@ -33,18 +33,18 @@
   },
   "engineStrict": true,
   "dependencies": {
-    "canvas": "2.11.2",
+    "canvas": "3.1.0",
     "pdfjs-dist": "4.2.67"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.5.1",
-    "@types/jest-image-snapshot": "^6.2.1",
-    "@types/node": "^20.8.6",
+    "@types/jest-image-snapshot": "^6.4.0",
+    "@types/node": "^22.13.4",
     "@types/pdfjs-dist": "2.10.377",
     "@vitest/coverage-v8": "^1.6.0",
-    "eslint": "^8.50.0",
-    "eslint-config-kyle": "^14.12.3",
-    "jest-image-snapshot": "^6.2.0",
+    "eslint": "^9.20.1",
+    "eslint-config-kyle": "^25.0.0",
+    "jest-image-snapshot": "^6.4.0",
+    "jsdom": "^26.0.0",
     "typescript": "^5.2.2",
     "vitest": "^1.6.0"
   },

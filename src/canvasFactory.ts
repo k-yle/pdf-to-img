@@ -11,7 +11,7 @@ type NonNullableFactory = {
 };
 
 export class NodeCanvasFactory {
-  /* eslint-disable class-methods-use-this, no-param-reassign */
+  /* eslint-disable class-methods-use-this */
   create(
     width: number,
     height: number,
