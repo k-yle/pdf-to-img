@@ -1,5 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { TextEncoder, TextDecoder } from "node:util";
+/* eslint-disable import-x/no-extraneous-dependencies */
+import { TextDecoder, TextEncoder } from "node:util";
 import { expect } from "vitest";
 import { configureToMatchImageSnapshot } from "jest-image-snapshot";
 

@@ -14,6 +14,7 @@ const pdfjsPath = path.dirname(
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
 const sanitize = (x: object) => {
+  // eslint-disable-next-line unicorn/prefer-structured-clone -- TODO: wait for min nodejs version to be bumped
   const object: Record<string, string> = JSON.parse(JSON.stringify(x));
 
   // remove UTF16 BOM and weird 0x0 character introduced in k-yle/pdf-to-img#138 and k-yle/pdf-to-img#184

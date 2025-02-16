@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { promises as fs, createReadStream } from "node:fs";
+import { createReadStream, promises as fs } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { pdf } from "../src/index.js";
 
