@@ -11,6 +11,7 @@ const { values, positionals } = parseArgs({
     scale: { short: "s", type: "string", default: "3" },
     password: { short: "p", type: "string" },
     output: { short: "o", type: "string" },
+    pages: { short: "g", type: "string", multiple: true },
   },
   allowPositionals: true,
 });
@@ -33,8 +34,6 @@ const fullInputFilePath = resolve(process.cwd(), inputFile);
 const outputFolder = join(process.cwd(), values.output || "");
 
 async function main() {
-  let pageNumber = 1;
-
   const document = await pdf(fullInputFilePath, {
     scale: +(values.scale || 3),
     password: values.password,
@@ -46,11 +45,33 @@ async function main() {
     await fs.mkdir(outputFolder, { recursive: true });
   }
 
-  for await (const image of document) {
-    const outputImageName = `${inputFileBaseName}-${pageNumber}.png`;
-    console.log(outputImageName);
-    await fs.writeFile(join(outputFolder, outputImageName), image);
-    pageNumber++;
+  if (values.pages) {
+    const allPages = new Set(values.pages.flatMap((str) => str.split(",")));
+    for (const pageNumber of allPages) {
+      const pageCount = document.length;
+      if (
+        Number.isNaN(+pageNumber) ||
+        !Number.isInteger(+pageNumber) ||
+        +pageNumber <= 0 ||
+        +pageNumber > pageCount
+      ) {
+        throw new TypeError(
+          `“${pageNumber}” is not a valid page number. Expected 1-${pageCount}`
+        );
+      }
+      const image = await document.getPage(+pageNumber);
+      const outputImageName = `${inputFileBaseName}-${pageNumber}.png`;
+      console.log(outputImageName);
+      await fs.writeFile(join(outputFolder, outputImageName), image);
+    }
+  } else {
+    let pageNumber = 1;
+    for await (const image of document) {
+      const outputImageName = `${inputFileBaseName}-${pageNumber}.png`;
+      console.log(outputImageName);
+      await fs.writeFile(join(outputFolder, outputImageName), image);
+      pageNumber++;
+    }
   }
 }
 
