@@ -9,6 +9,7 @@
     "moduleResolution": "node16",
     "downlevelIteration": true,
     "declaration": true,
+    "resolveJsonModule": true,
     "outDir": "temp"
   },
   "include": ["src", "tests"]

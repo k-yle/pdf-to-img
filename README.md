@@ -117,4 +117,5 @@ pdf2img inputFile.pdf
 # -s / --scale: set the scale (defaults to 3)
 # -p / --password: the password to unlock the PDF
 # -o / --output: the output folder, relative to the current working directory.
+# -g / --pages: set which pages to convert. eg: 1,4,7 (defaults to all pages)
 ```

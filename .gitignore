@@ -6,3 +6,5 @@ temp
 yarn.lock
 __diff_output__
 .jest*
+.DS_Store
+.idea
