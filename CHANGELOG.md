@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 4.5.0 (2025-06-05)
+
 - [CLI] Add `--pages` option to only convert specific pages
 
 ## 4.4.0 (2025-02-17)
