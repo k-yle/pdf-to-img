@@ -5,7 +5,7 @@ import type {
   DocumentInitParameters,
   RenderParameters,
 } from "pdfjs-dist/types/src/display/api.js";
-import { NodeCanvasFactory } from "./canvasFactory.js";
+import type { CanvasFactory } from "./canvasFactory.js";
 import { parseInput } from "./parseInput.js";
 
 const pdfjsPath = path.dirname(
@@ -43,7 +43,10 @@ export type Options = {
   /** defaults to `1`. If you want high-resolution images, increase this */
   scale?: number;
   /** render parameters which are passed to `PdfPage#render` */
-  renderParams?: Omit<RenderParameters, "canvasContext" | "viewport">;
+  renderParams?: Omit<
+    RenderParameters,
+    "canvas" | "canvasContext" | "viewport"
+  >;
   /** document init parameters which are passed to pdfjs.getDocument */
   docInitParams?: Partial<DocumentInitParameters>;
 };
@@ -83,7 +86,6 @@ export async function pdf(
 }> {
   const data = await parseInput(input);
 
-  const canvasFactory = new NodeCanvasFactory();
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
     standardFontDataUrl: path.join(pdfjsPath, `standard_fonts${path.sep}`),
@@ -91,7 +93,6 @@ export async function pdf(
     cMapPacked: true,
     ...options.docInitParams,
     isEvalSupported: false,
-    canvasFactory,
     data,
   }).promise;
 
@@ -102,19 +103,19 @@ export async function pdf(
 
     const viewport = page.getViewport({ scale: options.scale ?? 1 });
 
-    const { canvas, context } = canvasFactory.create(
+    const { canvas } = (pdfDocument.canvasFactory as CanvasFactory).create(
       viewport.width,
       viewport.height,
       !!options.renderParams?.background
     );
 
     await page.render({
-      canvasContext: context,
+      canvas,
       viewport,
       ...options.renderParams,
     }).promise;
 
-    return canvas.toBuffer();
+    return canvas.toBuffer("image/png");
   }
 
   return {

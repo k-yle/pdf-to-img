@@ -33,13 +33,12 @@
   },
   "engineStrict": true,
   "dependencies": {
-    "canvas": "3.1.0",
-    "pdfjs-dist": "4.2.67"
+    "canvas": "^3.2.0",
+    "pdfjs-dist": "^5.4.0"
   },
   "devDependencies": {
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/node": "^22.13.4",
-    "@types/pdfjs-dist": "2.10.377",
     "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^9.20.1",
     "eslint-config-kyle": "^25.0.0",
