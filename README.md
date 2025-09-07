@@ -10,7 +10,7 @@
 
 Useful for unit tests of PDFs
 
-Supports nodejs v18+, and comes with a CLI.
+Supports nodejs v20+, and comes with a CLI.
 
 ## Install
 
@@ -19,9 +19,12 @@ npm install -S pdf-to-img
 ```
 
 > [!IMPORTANT]
-> You should use v4 by default. v4 requires nodejs v18 or later, and ESM modules.
+> You should use v5 by default. v5 requires nodejs v20 or later, and ESM modules.
 >
-> If you can't upgrade to v4 yet, you can still use v3. If you use v3, you can safely ignore `npm audit`'s [warning about pdfjs-dist](https://github.com/advisories/GHSA-wgrm-67xf-hhpq), since this library [disables `eval` by default](https://github.com/k-yle/pdf-to-img/commit/bdac3a1dcc2004c3f1fe7380bbb860086ec2746f).
+> If you can't upgrade to v5 yet, you can still use v3 or v4. 
+> - If you v4 because you can't upgrade to Node 20+, you can pin canvas and pdfjs-dist using npm overrides to the following to have access to precompiled binaries for more OSes
+>   - `canvas@^3.2.0` and `pdfjs-dist@^4.8.0`
+> - If you use v3, you can safely ignore `npm audit`'s [warning about pdfjs-dist](https://github.com/advisories/GHSA-wgrm-67xf-hhpq), since this library [disables `eval` by default](https://github.com/k-yle/pdf-to-img/commit/bdac3a1dcc2004c3f1fe7380bbb860086ec2746f).
 
 ## Example
 

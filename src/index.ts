@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import path from "node:path";
+import path from "node:path/posix";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import type {
   DocumentInitParameters,

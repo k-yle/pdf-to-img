@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 5.0.0 (2025-06-05)
+
+- Add support for `pdfjs-dist@5`
+- Drop support for Node 18 and below
+
 ## 4.5.0 (2025-06-05)
 
 - [CLI] Add `--pages` option to only convert specific pages

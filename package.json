@@ -1,6 +1,6 @@
 {
   "name": "pdf-to-img",
-  "version": "4.5.0",
+  "version": "5.0.0",
   "author": "Kyle Hensel",
   "description": "📃📸 Converts PDFs to images in nodejs",
   "exports": "./dist/index.js",
@@ -29,17 +29,17 @@
     "pdf2img": "./bin/cli.mjs"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "engineStrict": true,
   "dependencies": {
-    "canvas": "^3.2.0",
-    "pdfjs-dist": "^5.4.0"
+    "pdfjs-dist": "~5.4.0"
   },
   "devDependencies": {
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/node": "^22.13.4",
     "@vitest/coverage-v8": "^1.6.0",
+    "canvas": "^3.2.0",
     "eslint": "^9.20.1",
     "eslint-config-kyle": "^25.0.0",
     "jest-image-snapshot": "^6.4.0",
