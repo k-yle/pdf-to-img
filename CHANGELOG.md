@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 5.0.0 (2025-06-05)
+## 5.0.0 (2025-09-08)
 
-- Add support for `pdfjs-dist@5`
+- Add support for `pdfjs-dist@5` and remove `node-canvas`
 - Drop support for Node 18 and below
 
 ## 4.5.0 (2025-06-05)
