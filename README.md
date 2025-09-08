@@ -10,18 +10,13 @@
 
 Useful for unit tests of PDFs
 
-Supports nodejs v18+, and comes with a CLI.
+Supports nodejs v20+, and comes with a CLI.
 
 ## Install
 
 ```sh
 npm install -S pdf-to-img
 ```
-
-> [!IMPORTANT]
-> You should use v4 by default. v4 requires nodejs v18 or later, and ESM modules.
->
-> If you can't upgrade to v4 yet, you can still use v3. If you use v3, you can safely ignore `npm audit`'s [warning about pdfjs-dist](https://github.com/advisories/GHSA-wgrm-67xf-hhpq), since this library [disables `eval` by default](https://github.com/k-yle/pdf-to-img/commit/bdac3a1dcc2004c3f1fe7380bbb860086ec2746f).
 
 ## Example
 
