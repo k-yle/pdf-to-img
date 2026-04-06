@@ -33,7 +33,7 @@
   },
   "engineStrict": true,
   "dependencies": {
-    "pdfjs-dist": "~5.4.0"
+    "pdfjs-dist": "~5.6.205"
   },
   "devDependencies": {
     "@types/jest-image-snapshot": "^6.4.0",
