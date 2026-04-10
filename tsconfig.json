@@ -10,7 +10,7 @@
     "downlevelIteration": true,
     "declaration": true,
     "resolveJsonModule": true,
-    "outDir": "temp"
+    "outDir": "dist"
   },
-  "include": ["src", "tests"]
+  "include": ["src/**/*.ts"]
 }
