@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 5.0.1 (2026-04-06)
+## 6.0.0 (2026-04-10)
+- 💥 BREAKING CHANGE: Drop support for node v20 <20.19.0 and node v22 <22.13.0
 - Update `pdfjs-dist` to 5.6.205
 
 ## 5.0.0 (2025-09-08)

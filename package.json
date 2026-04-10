@@ -1,6 +1,6 @@
 {
   "name": "pdf-to-img",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "author": "Kyle Hensel",
   "description": "📃📸 Converts PDFs to images in nodejs",
   "exports": "./dist/index.js",
@@ -29,7 +29,7 @@
     "pdf2img": "./bin/cli.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19.0 || >=22.13.0 || >=24"
   },
   "engineStrict": true,
   "dependencies": {
