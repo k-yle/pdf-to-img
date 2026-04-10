@@ -22,8 +22,7 @@
   "scripts": {
     "build": "tsc && rm -rf dist && mv temp/src dist && rm -rf temp",
     "lint": "eslint .",
-    "test": "vitest --pool=forks",
-    "trypublish": "npm publish --provenance || true"
+    "test": "vitest --pool=forks"
   },
   "bin": {
     "pdf2img": "./bin/cli.mjs"

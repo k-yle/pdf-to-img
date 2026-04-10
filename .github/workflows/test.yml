@@ -1,16 +1,29 @@
 name: Build and Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    permissions:
-      id-token: write
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x, 23.x, 24.x]
+        node-version:
+          - { v: 20.19.0 }
+          - { v: 20.x }
+          - { v: 22.13.0 }
+          - { v: 22.x }
+          - { v: 23.x }
+          - { v: 24.x }
+          - { v: 25.x, isLatest: yes }
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -19,12 +32,13 @@ jobs:
         run: git config --global core.autocrlf false
 
       - name: ⏬ Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: 🔢 Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: 🔢 Use Node.js ${{ matrix.node-version.v }}
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node-version.v }}
+          registry-url: "https://registry.npmjs.org"
 
       - name: ⏬ Install
         run: |
@@ -59,10 +73,5 @@ jobs:
           github-token: ${{ secrets.github_token }}
 
       - name: 📦 Publish
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
-          npm run trypublish
-        env:
-          CI: true
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        uses: k-yle/npm-publish@v1
+        if: ${{ matrix.node-version.isLatest }}
