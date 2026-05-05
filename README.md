@@ -34,9 +34,8 @@ async function main() {
     counter++;
   }
 
-
   // you can also read a specific page number:
-  const page12buffer = await document.getPage(12)
+  const page12buffer = await document.getPage(12);
 }
 main();
 ```
@@ -98,6 +97,21 @@ const doc = await pdf("example.pdf", {
 
   scale: 2.0, // use this for PDFs with high resolution images if the generated image is low quality
 });
+```
+
+### Resource management
+
+Document instances are not automatically freed from memory. To free them from memory, you can call `destroy()` on the document instance, or using explicit resource management with the `asAsyncDisposable()` helper method.
+
+Whether or not a document has already been destroyed can be checked with the `isDestroyed` property.
+
+#### `destroy()`
+
+```js
+const doc = await pdf("example.pdf");
+console.log(doc.isDestroyed); // `false`
+await doc.destroy();
+console.log(doc.isDestroyed); // `true`
 ```
 
 ## CLI

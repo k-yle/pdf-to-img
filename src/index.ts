@@ -51,6 +51,15 @@ export type Options = {
   docInitParams?: Partial<DocumentInitParameters>;
 };
 
+interface Pdf {
+  length: number;
+  metadata: PdfMetadata;
+  getPage(pageNumber: number): Promise<Buffer>;
+  isDestroyed: boolean;
+  destroy(): Promise<void>;
+  [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
+}
+
 /**
  * Converts a PDF to a series of images. This returns a `Symbol.asyncIterator`
  *
@@ -78,12 +87,7 @@ export type Options = {
 export async function pdf(
   input: string | Uint8Array | Buffer | NodeJS.ReadableStream,
   options: Options = {}
-): Promise<{
-  length: number;
-  metadata: PdfMetadata;
-  getPage(pageNumber: number): Promise<Buffer>;
-  [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
-}> {
+): Promise<Pdf> {
   const data = await parseInput(input);
 
   const pdfDocument = await pdfjs.getDocument({
@@ -118,10 +122,24 @@ export async function pdf(
     return canvas.toBuffer("image/png");
   }
 
+  let isDestroyed = false;
+  const destroy = async () => {
+    if (isDestroyed) {
+      return;
+    }
+
+    await pdfDocument.destroy();
+    isDestroyed = true;
+  };
+
   return {
     length: pdfDocument.numPages,
     metadata: sanitize(metadata.info),
     getPage,
+    get isDestroyed() {
+      return isDestroyed;
+    },
+    destroy,
     [Symbol.asyncIterator]() {
       return {
         pg: 0,
