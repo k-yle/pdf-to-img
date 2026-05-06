@@ -114,6 +114,23 @@ await doc.destroy();
 console.log(doc.isDestroyed); // `true`
 ```
 
+#### `asAsyncDisposable()`
+
+From Node 24, you can now use [explicit resource management](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Resource_management) for APIs that support this.
+
+In short, the document will call `destroy()` on itself at the end of the scope.
+
+Calling `asAsyncDisposable()` returns the same `document` instance with the required disposable interface implemented.
+
+```js
+{
+  await using doc = (await pdf("example.pdf")).asAsyncDisposable();
+  console.log(doc.isDestroyed); // `false`
+} // End of scope reached, `doc.destroy()` will be automatically called
+
+console.log(doc.isDestroyed); // `true`
+```
+
 ## CLI
 
 ```sh

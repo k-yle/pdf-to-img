@@ -51,13 +51,21 @@ export type Options = {
   docInitParams?: Partial<DocumentInitParameters>;
 };
 
-interface Pdf {
+interface BasePdf {
   length: number;
   metadata: PdfMetadata;
-  getPage(pageNumber: number): Promise<Buffer>;
   isDestroyed: boolean;
+  getPage(pageNumber: number): Promise<Buffer>;
   destroy(): Promise<void>;
   [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
+}
+
+export interface Pdf extends BasePdf {
+  asAsyncDisposable(): DisposablePdf;
+}
+
+export interface DisposablePdf extends BasePdf, AsyncDisposable {
+  [Symbol.asyncDispose](): Promise<void>;
 }
 
 /**
@@ -132,13 +140,12 @@ export async function pdf(
     isDestroyed = true;
   };
 
-  return {
+  // `isDestroyed` is added by each caller because re-using the `get` results
+  // in freezing the value at the time of spread, since spread invokes accessors.
+  const base: Omit<BasePdf, "isDestroyed"> = {
     length: pdfDocument.numPages,
     metadata: sanitize(metadata.info),
     getPage,
-    get isDestroyed() {
-      return isDestroyed;
-    },
     destroy,
     [Symbol.asyncIterator]() {
       return {
@@ -153,5 +160,19 @@ export async function pdf(
         },
       };
     },
+  };
+
+  return {
+    ...base,
+    get isDestroyed(): boolean {
+      return isDestroyed;
+    },
+    asAsyncDisposable: (): DisposablePdf => ({
+      ...base,
+      get isDestroyed(): boolean {
+        return isDestroyed;
+      },
+      [Symbol.asyncDispose]: destroy,
+    }),
   };
 }

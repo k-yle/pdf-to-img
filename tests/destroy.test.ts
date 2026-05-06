@@ -1,22 +1,7 @@
 // @vitest-environment node
-import * as fs from "node:fs/promises";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import { pdf } from "../src/index.js";
-
-/**
- * `pdfjs` doesn't export the `PDFDocumentProxy` prototype.
- * Workaround to be able to spy on the underlying prototype.
- */
-async function getPdfDocumentProxyPrototype(): Promise<pdfjs.PDFDocumentProxy> {
-  const data = new Uint8Array(await fs.readFile("./tests/example.pdf"));
-  const document = await pdfjs.getDocument({ data }).promise;
-  await document.destroy();
-
-  const proto = Reflect.getPrototypeOf(document) as pdfjs.PDFDocumentProxy;
-
-  return proto;
-}
+import { getPdfDocumentProxyPrototype } from "./pdfjsProxy.js";
 
 describe("destroy", () => {
   afterEach(() => {
