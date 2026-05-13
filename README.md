@@ -34,9 +34,8 @@ async function main() {
     counter++;
   }
 
-
   // you can also read a specific page number:
-  const page12buffer = await document.getPage(12)
+  const page12buffer = await document.getPage(12);
 }
 main();
 ```
@@ -99,6 +98,23 @@ const doc = await pdf("example.pdf", {
   scale: 2.0, // use this for PDFs with high resolution images if the generated image is low quality
 });
 ```
+
+### Resource management
+
+Document instances are not automatically freed from memory.
+Once you have finished with `doc`, you should call `doc.destroy()`.
+
+Or even better, replace `const` with `await using`.
+This is a new JS language feature known as [explicit resource management](https://developer.mozilla.org/docs/Web/JavaScript/Guide/Resource_management), which is available in Node 24 and newer.
+
+```diff
+-  const       doc = await pdf("example.pdf");
++  await using doc = await pdf("example.pdf");
+   for await (const page of doc) {
+```
+
+If you use `await using`, then you do not need to explicitly call `.destroy()`.
+Instead, the document will automatically be destroyed at the end of [the block scope](https://developer.mozilla.org/docs/Glossary/Scope).
 
 ## CLI
 

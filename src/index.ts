@@ -51,6 +51,16 @@ export type Options = {
   docInitParams?: Partial<DocumentInitParameters>;
 };
 
+export interface Pdf
+  extends AsyncDisposable,
+    AsyncIterable<Buffer, void, void> {
+  length: number;
+  metadata: PdfMetadata;
+  isDestroyed: boolean;
+  getPage(pageNumber: number): Promise<Buffer>;
+  destroy(): Promise<void>;
+}
+
 /**
  * Converts a PDF to a series of images. This returns a `Symbol.asyncIterator`
  *
@@ -73,17 +83,14 @@ export type Options = {
  * for await (const page of doc) {
  *   expect(page).toMatchImageSnapshot();
  * }
+ *
+ * doc.destroy();
  * ```
  */
 export async function pdf(
   input: string | Uint8Array | Buffer | NodeJS.ReadableStream,
   options: Options = {}
-): Promise<{
-  length: number;
-  metadata: PdfMetadata;
-  getPage(pageNumber: number): Promise<Buffer>;
-  [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
-}> {
+): Promise<Pdf> {
   const data = await parseInput(input);
 
   const pdfDocument = await pdfjs.getDocument({
@@ -100,6 +107,7 @@ export async function pdf(
 
   async function getPage(pageNumber: number) {
     const page = await pdfDocument.getPage(pageNumber);
+    if (page.destroyed) throw new Error("page is already destroyed");
 
     const viewport = page.getViewport({ scale: options.scale ?? 1 });
 
@@ -118,10 +126,20 @@ export async function pdf(
     return canvas.toBuffer("image/png");
   }
 
+  async function destroy() {
+    if (pdfDocument.loadingTask.destroyed) return;
+    await pdfDocument.loadingTask.destroy();
+  }
+
   return {
     length: pdfDocument.numPages,
     metadata: sanitize(metadata.info),
     getPage,
+    get isDestroyed() {
+      return pdfDocument.loadingTask.destroyed;
+    },
+    destroy,
+    [Symbol.asyncDispose]: destroy,
     [Symbol.asyncIterator]() {
       return {
         pg: 0,
@@ -135,5 +153,5 @@ export async function pdf(
         },
       };
     },
-  };
+  } satisfies Pdf;
 }
