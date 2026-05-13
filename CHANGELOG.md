@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 6.1.0 (2026-05-13)
+
+- Add a `.destroy()` method, to free up memory after processing a document. Alternatively, the `await using` operator can be used. See README for details. ([#269](https://github.com/k-yle/pdf-to-img/pull/269))
+
 ## 6.0.0 (2026-04-10)
+
 - 💥 BREAKING CHANGE: Drop support for node v20 <20.19.0 and node v22 <22.13.0
 - Update `pdfjs-dist` to 5.6.205
 
