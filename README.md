@@ -101,35 +101,20 @@ const doc = await pdf("example.pdf", {
 
 ### Resource management
 
-Document instances are not automatically freed from memory. To free them from memory, you can call `destroy()` on the document instance, or using explicit resource management with the `asAsyncDisposable()` helper method.
+Document instances are not automatically freed from memory.
+Once you have finished with `doc`, you should call `doc.destroy()`.
 
-Whether or not a document has already been destroyed can be checked with the `isDestroyed` property.
+Or even better, replace `const` with `await using`.
+This is a new JS language feature known as [explicit resource management](https://developer.mozilla.org/docs/Web/JavaScript/Guide/Resource_management), which is available in Node 24 and newer.
 
-#### `destroy()`
-
-```js
-const doc = await pdf("example.pdf");
-console.log(doc.isDestroyed); // `false`
-await doc.destroy();
-console.log(doc.isDestroyed); // `true`
+```diff
+-  const       doc = await pdf("example.pdf");
++  await using doc = await pdf("example.pdf");
+   for await (const page of doc) {
 ```
 
-#### `asAsyncDisposable()`
-
-From Node 24, you can now use [explicit resource management](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Resource_management) for APIs that support this.
-
-In short, the document will call `destroy()` on itself at the end of the scope.
-
-Calling `asAsyncDisposable()` returns the same `document` instance with the required disposable interface implemented.
-
-```js
-{
-  await using doc = (await pdf("example.pdf")).asAsyncDisposable();
-  console.log(doc.isDestroyed); // `false`
-} // End of scope reached, `doc.destroy()` will be automatically called
-
-console.log(doc.isDestroyed); // `true`
-```
+If you use `await using`, then you do not need to explicitly call `.destroy()`.
+Instead, the document will automatically be destroyed at the end of [the block scope](https://developer.mozilla.org/docs/Glossary/Scope).
 
 ## CLI
 

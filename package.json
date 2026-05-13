@@ -43,7 +43,7 @@
     "eslint-config-kyle": "^25.0.0",
     "jest-image-snapshot": "^6.4.0",
     "jsdom": "^26.0.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.9.3",
     "vitest": "^1.6.0"
   },
   "prettier": {

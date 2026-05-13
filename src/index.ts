@@ -51,14 +51,14 @@ export type Options = {
   docInitParams?: Partial<DocumentInitParameters>;
 };
 
-export interface Pdf extends AsyncDisposable {
+export interface Pdf
+  extends AsyncDisposable,
+    AsyncIterable<Buffer, void, void> {
   length: number;
   metadata: PdfMetadata;
   isDestroyed: boolean;
   getPage(pageNumber: number): Promise<Buffer>;
   destroy(): Promise<void>;
-  [Symbol.asyncDispose](): Promise<void>;
-  [Symbol.asyncIterator](): AsyncIterator<Buffer, void, void>;
 }
 
 /**
@@ -83,6 +83,8 @@ export interface Pdf extends AsyncDisposable {
  * for await (const page of doc) {
  *   expect(page).toMatchImageSnapshot();
  * }
+ *
+ * doc.destroy();
  * ```
  */
 export async function pdf(
@@ -105,6 +107,7 @@ export async function pdf(
 
   async function getPage(pageNumber: number) {
     const page = await pdfDocument.getPage(pageNumber);
+    if (page.destroyed) throw new Error("page is already destroyed");
 
     const viewport = page.getViewport({ scale: options.scale ?? 1 });
 
@@ -123,22 +126,17 @@ export async function pdf(
     return canvas.toBuffer("image/png");
   }
 
-  let isDestroyed = false;
-  const destroy = async () => {
-    if (isDestroyed) {
-      return;
-    }
-
-    await pdfDocument.destroy();
-    isDestroyed = true;
-  };
+  async function destroy() {
+    if (pdfDocument.loadingTask.destroyed) return;
+    await pdfDocument.loadingTask.destroy();
+  }
 
   return {
     length: pdfDocument.numPages,
     metadata: sanitize(metadata.info),
     getPage,
-    get isDestroyed(): boolean {
-      return isDestroyed;
+    get isDestroyed() {
+      return pdfDocument.loadingTask.destroyed;
     },
     destroy,
     [Symbol.asyncDispose]: destroy,

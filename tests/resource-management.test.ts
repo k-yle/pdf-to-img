@@ -1,80 +1,83 @@
 // @vitest-environment node
+import { promises as fs } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { pdf } from "../src/index.js";
-import { getPdfDocumentProxyPrototype } from "./pdfjsProxy.js";
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
+import { type Pdf, pdf } from "../src/index.js";
+
+/**
+ * `pdfjs` doesn't export the `PDFDocumentProxy` prototype.
+ * Workaround to be able to spy on the underlying prototype.
+ */
+const documentProto = (async () => {
+  const data = new Uint8Array(await fs.readFile("./tests/example.pdf"));
+  const loadingTask = pdfjs.getDocument({ data });
+
+  return Reflect.getPrototypeOf(loadingTask) as pdfjs.PDFDocumentLoadingTask;
+})();
 
 describe("resource management", () => {
-  describe("destroy", () => {
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
-    it("updates `isDestroyed` after calling `destroy`", async () => {
+  // manually called .destroy() and .[Symbol.asyncDispose]() should behave
+  // the same, so test both.
+  const disposeFns = [Symbol.asyncDispose, "destroy"] as const;
+
+  describe.each(disposeFns)("%s", (disposeFunction) => {
+    it("updates `isDestroyed` after manually calling destroy/dispose", async () => {
       const document = await pdf("./tests/example.pdf");
 
       expect(document.isDestroyed).toStrictEqual(false);
-      await document.destroy();
+      await document[disposeFunction]();
       expect(document.isDestroyed).toStrictEqual(true);
-
-      await expect(document.getPage(1)).rejects.toThrow();
-    });
-
-    it("should throw upon acting upon a destroyed instance", async () => {
-      const document = await pdf("./tests/example.pdf");
 
       // Once `destroy` has been called, the underlying pdfjs document is torn down.
       // We expect that any methods that attempt to act on this would then reject/fail.
-      await document.destroy();
+      await document[disposeFunction]();
       await expect(document.getPage(1)).rejects.toThrow();
     });
 
-    it("calls underlying pdfjs document when calling destroy", async () => {
-      const documentProto = await getPdfDocumentProxyPrototype();
-      const destroySpy = vi.spyOn(documentProto, "destroy");
+    it("calls underlying pdfjs document when calling destroy/dispose", async () => {
+      const destroySpy = vi.spyOn(await documentProto, "destroy");
 
       const document = await pdf("./tests/example.pdf");
+
+      Reflect.getPrototypeOf(document);
 
       expect(document.isDestroyed).toStrictEqual(false);
       expect(destroySpy).not.toHaveBeenCalled();
 
-      await document.destroy();
+      await document[disposeFunction]();
 
       expect(destroySpy).toHaveBeenCalledOnce();
       expect(document.isDestroyed).toStrictEqual(true);
     });
 
-    it("only calls the underlying destroy once upon multiple destroy calls", async () => {
-      const documentProto = await getPdfDocumentProxyPrototype();
-      const destroySpy = vi.spyOn(documentProto, "destroy");
+    it("only calls the underlying destroy once upon multiple destroy/dispose calls", async () => {
+      const destroySpy = vi.spyOn(await documentProto, "destroy");
 
       const document = await pdf("./tests/example.pdf");
 
-      await document.destroy();
-      await document.destroy();
+      await document[disposeFunction]();
+      await document[disposeFunction]();
 
       expect(destroySpy).toHaveBeenCalledOnce();
       expect(document.isDestroyed).toStrictEqual(true);
     });
   });
 
-  describe("disposable", () => {
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
+  describe("using", () => {
+    it("updates `isDestroyed` after implicit disposal", async () => {
+      let document!: Pdf;
+      await (async () => {
+        await using _document = await pdf("./tests/example.pdf");
+        document = _document;
 
-    it("updates `isDestroyed` after manual disposal", async () => {
-      const document = await pdf("./tests/example.pdf");
-
-      expect(document.isDestroyed).toStrictEqual(false);
-
-      await document[Symbol.asyncDispose]();
+        expect(_document.isDestroyed).toStrictEqual(false);
+      })();
 
       expect(document.isDestroyed).toStrictEqual(true);
-    });
-
-    it("rejects further work after disposal", async () => {
-      const document = await pdf("./tests/example.pdf");
-      await document[Symbol.asyncDispose]();
 
       // Once `destroy` has been called, the underlying pdfjs document is torn down.
       // We expect that any methods that attempt to act on this would then reject/fail.
@@ -82,28 +85,16 @@ describe("resource management", () => {
     });
 
     it("calls the underlying pdfjs document destroy() on disposal", async () => {
-      const documentProto = await getPdfDocumentProxyPrototype();
-      const destroySpy = vi.spyOn(documentProto, "destroy");
+      const destroySpy = vi.spyOn(await documentProto, "destroy");
 
-      const document = await pdf("./tests/example.pdf");
+      let document!: Pdf;
+      await (async () => {
+        await using _document = await pdf("./tests/example.pdf");
+        document = _document;
 
-      expect(document.isDestroyed).toStrictEqual(false);
-      expect(destroySpy).not.toHaveBeenCalled();
-
-      await document[Symbol.asyncDispose]();
-
-      expect(destroySpy).toHaveBeenCalledOnce();
-      expect(document.isDestroyed).toStrictEqual(true);
-    });
-
-    it("only calls the underlying destroy once across repeated dispose calls", async () => {
-      const documentProto = await getPdfDocumentProxyPrototype();
-      const destroySpy = vi.spyOn(documentProto, "destroy");
-
-      const document = await pdf("./tests/example.pdf");
-
-      await document[Symbol.asyncDispose]();
-      await document[Symbol.asyncDispose]();
+        expect(document.isDestroyed).toStrictEqual(false);
+        expect(destroySpy).not.toHaveBeenCalled();
+      })();
 
       expect(destroySpy).toHaveBeenCalledOnce();
       expect(document.isDestroyed).toStrictEqual(true);
