@@ -23,7 +23,8 @@ jobs:
           - { v: 22.x }
           - { v: 23.x }
           - { v: 24.x }
-          - { v: 25.x, isLatest: yes }
+          - { v: 25.x }
+          - { v: 26.x, isLatest: yes }
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
