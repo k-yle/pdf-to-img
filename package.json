@@ -35,16 +35,16 @@
     "pdfjs-dist": "~5.6.205"
   },
   "devDependencies": {
-    "@types/jest-image-snapshot": "^6.4.0",
-    "@types/node": "^22.13.4",
-    "@vitest/coverage-v8": "^1.6.0",
-    "canvas": "^3.2.0",
+    "@types/jest-image-snapshot": "^6.4.1",
+    "@types/node": "^25.7.0",
+    "@vitest/coverage-v8": "^4.1.6",
+    "canvas": "^3.2.3",
     "eslint": "^9.20.1",
     "eslint-config-kyle": "^25.0.0",
-    "jest-image-snapshot": "^6.4.0",
-    "jsdom": "^26.0.0",
+    "jest-image-snapshot": "^6.5.2",
+    "jsdom": "^29.1.1",
     "typescript": "^5.9.3",
-    "vitest": "^1.6.0"
+    "vitest": "^4.1.6"
   },
   "prettier": {
     "trailingComma": "es5"

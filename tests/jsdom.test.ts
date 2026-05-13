@@ -95,14 +95,14 @@ describe("encrypted.pdf", () => {
 
   it("rejects if no password is supplied", async () => {
     await expect(() => pdf("./tests/encrypted.pdf")).rejects.toThrow(
-      new Error("No password given")
+      /^No password given$/
     );
   });
 
   it("rejects if the wrong password is supplied", async () => {
     await expect(() =>
       pdf("./tests/encrypted.pdf", { password: "UwU" })
-    ).rejects.toThrow(new Error("Incorrect Password"));
+    ).rejects.toThrow(/^Incorrect Password$/);
   });
 });
 
