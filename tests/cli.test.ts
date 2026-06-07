@@ -15,6 +15,25 @@ const cliPath = join(__dirname, "..", package_.bin.pdf2img);
 const exampleFile = join(__dirname, "7pages.pdf");
 
 describe("CLI", () => {
+  it("prints help", async () => {
+    const { stdout, stderr } = await execAsync(`node ${cliPath} --help`, {
+      cwd,
+    });
+
+    expect(stdout).toContain("Usage: pdf2img [options] <input.pdf>");
+    expect(stdout).toContain("--pages <pages>");
+    expect(stderr).toBe("");
+  });
+
+  it("prints version", async () => {
+    const { stdout, stderr } = await execAsync(`node ${cliPath} --version`, {
+      cwd,
+    });
+
+    expect(stdout.trim()).toBe(package_.version);
+    expect(stderr).toBe("");
+  });
+
   it("works when specific pages are specified", async () => {
     const { stdout, stderr } = await execAsync(
       `node ${cliPath} --pages 1,6,7 ${exampleFile}`,

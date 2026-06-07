@@ -6,6 +6,31 @@ import { parseArgs } from "node:util";
 import { basename, join, resolve } from "node:path";
 import { pdf } from "../dist/index.js";
 
+const usage = `Usage: pdf2img [options] <input.pdf>
+
+Options:
+  -s, --scale <scale>        output scale (default: 3)
+  -p, --password <password>  password for encrypted PDFs
+  -o, --output <folder>      output folder
+  -g, --pages <pages>        page numbers to render, comma-separated or repeated
+  -v, --version              print version
+  -h, --help                 print help`;
+
+const args = process.argv.slice(2);
+
+if (args.includes("--help") || args.includes("-h")) {
+  console.log(usage);
+  process.exit(0);
+}
+
+if (args.includes("--version") || args.includes("-v")) {
+  const packageJson = JSON.parse(
+    await fs.readFile(new URL("../package.json", import.meta.url), "utf8")
+  );
+  console.log(packageJson.version);
+  process.exit(0);
+}
+
 const { values, positionals } = parseArgs({
   options: {
     scale: { short: "s", type: "string", default: "3" },
