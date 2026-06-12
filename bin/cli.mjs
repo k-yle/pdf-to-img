@@ -14,22 +14,9 @@ Options:
   -o, --output <folder>      output folder
   -g, --pages <pages>        page numbers to render, comma-separated or repeated
   -v, --version              print version
-  -h, --help                 print help`;
+  -h, --help                 print help
 
-const args = process.argv.slice(2);
-
-if (args.includes("--help") || args.includes("-h")) {
-  console.log(usage);
-  process.exit(0);
-}
-
-if (args.includes("--version") || args.includes("-v")) {
-  const packageJson = JSON.parse(
-    await fs.readFile(new URL("../package.json", import.meta.url), "utf8")
-  );
-  console.log(packageJson.version);
-  process.exit(0);
-}
+`;
 
 const { values, positionals } = parseArgs({
   options: {
@@ -37,9 +24,24 @@ const { values, positionals } = parseArgs({
     password: { short: "p", type: "string" },
     output: { short: "o", type: "string" },
     pages: { short: "g", type: "string", multiple: true },
+    help: { short: "h", type: "boolean" },
+    version: { short: "v", type: "boolean" },
   },
   allowPositionals: true,
 });
+
+if (values.help) {
+  process.stdout.write(usage);
+  process.exit(0);
+}
+
+if (values.version) {
+  const packageJson = JSON.parse(
+    await fs.readFile(new URL("../package.json", import.meta.url), "utf8")
+  );
+  process.stdout.write(`${packageJson.version}\n`);
+  process.exit(0);
+}
 
 const [inputFile] = positionals;
 
