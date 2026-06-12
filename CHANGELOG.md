@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 6.2.0 (2026-06-13)
+
+- Add `--version` and `--help` options to the CLI ([#271](https://github.com/k-yle/pdf-to-img/pull/271))
+
 ## 6.1.0 (2026-05-13)
 
 - Add a `.destroy()` method, to free up memory after processing a document. Alternatively, the `await using` operator can be used. See README for details. ([#269](https://github.com/k-yle/pdf-to-img/pull/269))
