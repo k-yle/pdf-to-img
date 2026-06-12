@@ -6,15 +6,42 @@ import { parseArgs } from "node:util";
 import { basename, join, resolve } from "node:path";
 import { pdf } from "../dist/index.js";
 
+const usage = `Usage: pdf2img [options] <input.pdf>
+
+Options:
+  -s, --scale <scale>        output scale (default: 3)
+  -p, --password <password>  password for encrypted PDFs
+  -o, --output <folder>      output folder
+  -g, --pages <pages>        page numbers to render, comma-separated or repeated
+  -v, --version              print version
+  -h, --help                 print help
+
+`;
+
 const { values, positionals } = parseArgs({
   options: {
     scale: { short: "s", type: "string", default: "3" },
     password: { short: "p", type: "string" },
     output: { short: "o", type: "string" },
     pages: { short: "g", type: "string", multiple: true },
+    help: { short: "h", type: "boolean" },
+    version: { short: "v", type: "boolean" },
   },
   allowPositionals: true,
 });
+
+if (values.help) {
+  process.stdout.write(usage);
+  process.exit(0);
+}
+
+if (values.version) {
+  const packageJson = JSON.parse(
+    await fs.readFile(new URL("../package.json", import.meta.url), "utf8")
+  );
+  process.stdout.write(`${packageJson.version}\n`);
+  process.exit(0);
+}
 
 const [inputFile] = positionals;
 
