@@ -58,6 +58,21 @@ describe("CLI", () => {
     }
   });
 
+  it("writes jpeg when the format is specified", async () => {
+    const { stdout, stderr } = await execAsync(
+      `node ${cliPath} --format jpg --pages 1 ${exampleFile}`,
+      { cwd }
+    );
+
+    expect(stdout).toBe("7pages-1.jpg\n");
+    expect(stderr).toBe("");
+
+    const fileName = join(cwd, "7pages-1.jpg");
+    const file = await fs.readFile(fileName);
+    expect(file.subarray(0, 2)).toStrictEqual(Buffer.from([0xff, 0xd8]));
+    await fs.rm(fileName);
+  });
+
   it.each(["0", "8", "abcdef"])(
     "errors if you use --pages with an invalid page (%s)",
     async (pg) => {

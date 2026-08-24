@@ -9,6 +9,14 @@ describe("example.pdf in node", () => {
       expect(page).toMatchImageSnapshot();
     }
   });
+
+  it("generates jpeg when requested", async () => {
+    const document = await pdf("./tests/example.pdf", { format: "jpg" });
+    const page = await document.getPage(1);
+
+    expect(page.subarray(0, 2)).toStrictEqual(Buffer.from([0xff, 0xd8]));
+    await document.destroy();
+  });
 });
 
 describe("data url", () => {

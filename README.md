@@ -96,6 +96,8 @@ const doc = await pdf("example.pdf", {
   password: "...", // if the PDF is encrypted
 
   scale: 2.0, // use this for PDFs with high resolution images if the generated image is low quality
+
+  format: "jpg", // use "png" (default), "jpg", or "jpeg"
 });
 ```
 
@@ -129,4 +131,5 @@ pdf2img inputFile.pdf
 # -p / --password: the password to unlock the PDF
 # -o / --output: the output folder, relative to the current working directory.
 # -g / --pages: set which pages to convert. eg: 1,4,7 (defaults to all pages)
+# -f / --format: output format: png (default), jpg, or jpeg
 ```

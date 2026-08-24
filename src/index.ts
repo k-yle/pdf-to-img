@@ -38,6 +38,8 @@ export type PdfMetadata = {
 };
 
 export type Options = {
+  /** output image format; defaults to `png` */
+  format?: "png" | "jpg" | "jpeg";
   /** For cases where the PDF is encrypted with a password */
   password?: string;
   /** defaults to `1`. If you want high-resolution images, increase this */
@@ -123,6 +125,9 @@ export async function pdf(
       ...options.renderParams,
     }).promise;
 
+    if (options.format === "jpg" || options.format === "jpeg") {
+      return canvas.toBuffer("image/jpeg");
+    }
     return canvas.toBuffer("image/png");
   }
 
