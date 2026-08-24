@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 6.3.0 (2026-08-24)
+
+- Add support for JPG and JPEG output formats
+
 ## 6.2.0 (2026-06-13)
 
 - Add `--version` and `--help` options to the CLI ([#271](https://github.com/k-yle/pdf-to-img/pull/271))
