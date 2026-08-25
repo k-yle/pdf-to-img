@@ -9,6 +9,7 @@ import { pdf } from "../dist/index.js";
 const usage = `Usage: pdf2img [options] <input.pdf>
 
 Options:
+  -f, --format <format>      output format: png, jpg, or jpeg (default: png)
   -s, --scale <scale>        output scale (default: 3)
   -p, --password <password>  password for encrypted PDFs
   -o, --output <folder>      output folder
@@ -20,6 +21,7 @@ Options:
 
 const { values, positionals } = parseArgs({
   options: {
+    format: { short: "f", type: "string", default: "png" },
     scale: { short: "s", type: "string", default: "3" },
     password: { short: "p", type: "string" },
     output: { short: "o", type: "string" },
@@ -59,9 +61,21 @@ const inputFileBaseName = /** @type {string} */ (basename(inputFile)).replace(
 
 const fullInputFilePath = resolve(process.cwd(), inputFile);
 const outputFolder = join(process.cwd(), values.output || "");
+const requestedFormat = values.format;
+
+if (
+  requestedFormat !== "png" &&
+  requestedFormat !== "jpg" &&
+  requestedFormat !== "jpeg"
+) {
+  throw new TypeError(`“${requestedFormat}” is not a supported output format`);
+}
+
+const format = requestedFormat === "jpeg" ? "jpg" : requestedFormat;
 
 async function main() {
   const document = await pdf(fullInputFilePath, {
+    format,
     scale: +(values.scale || 3),
     password: values.password,
   });
@@ -87,14 +101,14 @@ async function main() {
         );
       }
       const image = await document.getPage(+pageNumber);
-      const outputImageName = `${inputFileBaseName}-${pageNumber}.png`;
+      const outputImageName = `${inputFileBaseName}-${pageNumber}.${format}`;
       console.log(outputImageName);
       await fs.writeFile(join(outputFolder, outputImageName), image);
     }
   } else {
     let pageNumber = 1;
     for await (const image of document) {
-      const outputImageName = `${inputFileBaseName}-${pageNumber}.png`;
+      const outputImageName = `${inputFileBaseName}-${pageNumber}.${format}`;
       console.log(outputImageName);
       await fs.writeFile(join(outputFolder, outputImageName), image);
       pageNumber++;
