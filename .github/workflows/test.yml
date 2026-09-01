@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - { v: 20.19.0 }
-          - { v: 20.x }
           - { v: 22.13.0 }
           - { v: 22.x }
           - { v: 23.x }
