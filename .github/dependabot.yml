@@ -6,3 +6,7 @@ updates:
       interval: daily
     allow:
       - dependency-type: production
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+      include: scope
