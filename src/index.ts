@@ -101,7 +101,6 @@ export async function pdf(
     cMapUrl: path.join(pdfjsPath, `cmaps${path.sep}`),
     cMapPacked: true,
     ...options.docInitParams,
-    isEvalSupported: false,
     data,
   }).promise;
 

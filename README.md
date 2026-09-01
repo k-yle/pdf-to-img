@@ -10,7 +10,7 @@
 
 Useful for unit tests of PDFs
 
-Supports nodejs v20+, and comes with a CLI.
+Supports nodejs v22.13+, and comes with a CLI.
 
 ## Install
 
