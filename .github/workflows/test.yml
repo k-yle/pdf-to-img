@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   build:
@@ -24,7 +23,7 @@ jobs:
           - { v: 23.x }
           - { v: 24.x }
           - { v: 25.x }
-          - { v: 26.x, isLatest: yes }
+          - { v: 26.x }
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -39,7 +38,9 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version.v }}
-          registry-url: "https://registry.npmjs.org"
+
+      - name: Enforce conventional commits
+        uses: webiny/action-conventional-commits@7f91b1595ca1951cdb671ddc9f07a49081ec5b69
 
       - name: ⏬ Install
         run: |
@@ -72,7 +73,3 @@ jobs:
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949 # v2.2.3
         with:
           github-token: ${{ secrets.github_token }}
-
-      - name: 📦 Publish
-        uses: k-yle/npm-publish@v1
-        if: ${{ matrix.node-version.isLatest }}

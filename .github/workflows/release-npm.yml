@@ -1,0 +1,31 @@
+name: release-npm
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write # OIDC
+  contents: write # release-please (create commit)
+  pull-requests: write # release-please (create PR)
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    environment: release-npm
+    concurrency: release-npm
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 26
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: k-yle/npm-publish@v3
+        id: publish
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
