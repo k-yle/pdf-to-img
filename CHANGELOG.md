@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0](https://github.com/k-yle/pdf-to-img/compare/pdf-to-img-v6.3.0...pdf-to-img-v7.0.0) (2026-09-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for nodejs v20
+
+### Features
+
+* drop support for nodejs v20 ([be0b6e0](https://github.com/k-yle/pdf-to-img/commit/be0b6e04590f3f9e0e9e05998ee2c5b53ee2d386))
+* setup release-please ([4e85ff5](https://github.com/k-yle/pdf-to-img/commit/4e85ff525d3c7777eed0ade0207ddfe20ad3a830))
+
+
+### Bug Fixes
+
+* **deps:** bump pdfjs-dist from 5.6.205 to 6.2.108 ([9cb6da1](https://github.com/k-yle/pdf-to-img/commit/9cb6da14b5e2cb92d7a00b486881ea56a8f3a80f))
+
 ## 6.3.0 (2026-08-24)
 
 - Add support for JPG and JPEG output formats
