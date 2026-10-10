@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.1](https://github.com/k-yle/pdf-to-img/compare/pdf-to-img-v7.0.0...pdf-to-img-v7.0.1) (2026-10-10)
+
+
+### Bug Fixes
+
+* **deps:** bump pdfjs-dist from 6.2.108 to 6.4.299 ([#278](https://github.com/k-yle/pdf-to-img/issues/278)) ([958a20d](https://github.com/k-yle/pdf-to-img/commit/958a20d1799214bd724a1ad82448d369b37cfc4e))
+
 ## [7.0.0](https://github.com/k-yle/pdf-to-img/compare/pdf-to-img-v6.3.0...pdf-to-img-v7.0.0) (2026-09-01)
 
 
