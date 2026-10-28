@@ -1,5 +1,4 @@
-import { createRequire } from "node:module";
-import path from "node:path/posix";
+import { fileURLToPath } from "node:url";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import type {
   DocumentInitParameters,
@@ -8,9 +7,7 @@ import type {
 import type { CanvasFactory } from "./canvasFactory.js";
 import { parseInput } from "./parseInput.js";
 
-const pdfjsPath = path.dirname(
-  createRequire(import.meta.url).resolve("pdfjs-dist/package.json")
-);
+const pdfjsURL = import.meta.resolve("pdfjs-dist/package.json");
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
 const sanitize = (x: object) => {
@@ -97,8 +94,8 @@ export async function pdf(
 
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
-    standardFontDataUrl: path.join(pdfjsPath, `standard_fonts${path.sep}`),
-    cMapUrl: path.join(pdfjsPath, `cmaps${path.sep}`),
+    standardFontDataUrl: `${fileURLToPath(new URL("standard_fonts", pdfjsURL))}/`,
+    cMapUrl: `${fileURLToPath(new URL("cmaps", pdfjsURL))}/`,
     cMapPacked: true,
     ...options.docInitParams,
     data,
