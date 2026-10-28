@@ -19,6 +19,15 @@ describe("example.pdf in node", () => {
   });
 });
 
+describe("JPX images", () => {
+  it("decodes JPEG2000 images using the wasm decoder", async () => {
+    // from https://github.com/mozilla/pdf.js/blob/2a1b241/test/pdfs/issue19326.pdf
+    for await (const page of await pdf("./tests/jpx.pdf")) {
+      expect(page).toMatchImageSnapshot();
+    }
+  });
+});
+
 describe("data url", () => {
   it("can load a document from a data URL", async () => {
     const b64 = await fs.readFile("./tests/example.pdf", "base64");
