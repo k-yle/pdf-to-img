@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.2](https://github.com/k-yle/pdf-to-img/compare/pdf-to-img-v7.0.1...pdf-to-img-v7.0.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* enable pdf.js wasm based pdf decoder ([#281](https://github.com/k-yle/pdf-to-img/issues/281)) ([5b9f857](https://github.com/k-yle/pdf-to-img/commit/5b9f8573ea07cb083f9c47636100af3fc3eb8314))
+* resolve pdf.js resource paths on windows ([#282](https://github.com/k-yle/pdf-to-img/issues/282)) ([ad2b405](https://github.com/k-yle/pdf-to-img/commit/ad2b405ca75b14795eae293e34e9c504e7038186))
+
 ## [7.0.1](https://github.com/k-yle/pdf-to-img/compare/pdf-to-img-v7.0.0...pdf-to-img-v7.0.1) (2026-10-10)
 
 
