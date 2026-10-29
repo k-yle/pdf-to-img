@@ -1,4 +1,5 @@
-import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import type {
   DocumentInitParameters,
@@ -7,7 +8,9 @@ import type {
 import type { CanvasFactory } from "./canvasFactory.js";
 import { parseInput } from "./parseInput.js";
 
-const pdfjsURL = import.meta.resolve("pdfjs-dist/package.json");
+const pdfjsURL = pathToFileURL(
+  createRequire(import.meta.url).resolve("pdfjs-dist/package.json")
+);
 
 /** required since k-yle/pdf-to-img#58, the objects from pdfjs are weirdly structured */
 const sanitize = (x: object) => {
