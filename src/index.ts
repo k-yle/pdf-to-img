@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import path from "node:path/posix";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import type {
   DocumentInitParameters,
@@ -8,7 +8,7 @@ import type {
 import type { CanvasFactory } from "./canvasFactory.js";
 import { parseInput } from "./parseInput.js";
 
-const pdfjsPath = path.dirname(
+const pdfjsURL = pathToFileURL(
   createRequire(import.meta.url).resolve("pdfjs-dist/package.json")
 );
 
@@ -97,8 +97,8 @@ export async function pdf(
 
   const pdfDocument = await pdfjs.getDocument({
     password: options.password, // retain for backward compatibility, but ensure settings from docInitParams overrides this and others, if given.
-    standardFontDataUrl: path.join(pdfjsPath, `standard_fonts${path.sep}`),
-    cMapUrl: path.join(pdfjsPath, `cmaps${path.sep}`),
+    standardFontDataUrl: `${fileURLToPath(new URL("standard_fonts", pdfjsURL))}/`,
+    cMapUrl: `${fileURLToPath(new URL("cmaps", pdfjsURL))}/`,
     cMapPacked: true,
     ...options.docInitParams,
     data,
